@@ -1,7 +1,7 @@
 #include "graphic.h"
 #include "sprite.h"
 
-#define FPS 4
+#define FPS 8
 
 // For animation use
 int frames_count = 0;
