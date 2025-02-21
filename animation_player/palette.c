@@ -1,13 +1,28 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include "container.h"
+
+#define INVERT_RB 0
 
 typedef struct
 {
     int total_pixels;
     uint32_t *pixel_data;
 } palette_t;
+
+typedef struct
+{
+    int total_palettes;
+    palette_t *palettes;
+} palettes_t;
+
+static inline void swap(uint8_t *a, uint8_t *b)
+{
+    uint8_t tmp = *a;
+    *a = *b;
+    *b = tmp;
+    return;
+}
 
 static inline void bytes_copy(const uint8_t *src, size_t offset, void *dest, size_t size)
 {
@@ -19,14 +34,22 @@ static inline void bytes_copy(const uint8_t *src, size_t offset, void *dest, siz
     return;
 }
 
-size_t get_palette_count(container_t *palettes)
+int get_palette_count(palettes_t *palettes)
 {
-    return container_get_size(palettes);
+    if(!palettes) return -1;
+
+    return palettes->total_palettes;
 }
 
-palette_t *get_palette(container_t *palettes, size_t index)
+palette_t *get_palette(palettes_t *palettes, size_t index)
 {
-    return (palette_t*)container_get(palettes, index);
+    int total_palettes;
+    if(!palettes) return NULL;
+
+    total_palettes = palettes->total_palettes;
+    if(index >= total_palettes) return NULL;
+
+    return &(palettes->palettes[index]);
 }
 
 uint32_t get_palette_color(palette_t *palette, size_t color_index)
@@ -35,47 +58,59 @@ uint32_t get_palette_color(palette_t *palette, size_t color_index)
     {
         return 0;
     }
+
+#if INVERT_RB
+    uint32_t color_tmp = palette->pixel_data[color_index];
+    swap((uint8_t*)&color_tmp, (uint8_t*)&color_tmp + 2);
+    return color_tmp;
+#else
     return palette->pixel_data[color_index];
+#endif
 }
 
-void palette_free(container_t *palettes)
+void palettes_free(palettes_t *palettes)
 {
     if(!palettes) return;
 
-    size_t total_palette = get_palette_count(palettes);
-    if(total_palette)
+    int total_palette = get_palette_count(palettes);
+    if(total_palette > 0)
     {
+        palette_t *palettes_tmp = palettes->palettes;
         for(int i = 0; i < total_palette; i++)
         {
-            palette_t *tmp = get_palette(palettes, i);
-            if(tmp)
+            if(palettes_tmp[i].pixel_data)
             {
-                free(tmp->pixel_data);
-                free(tmp);
+                free(palettes_tmp[i].pixel_data);
             }
         }
+        free(palettes_tmp);
     }
     free(palettes);
     return;
 }
 
-container_t *palette_load(const uint8_t *data, uint16_t pixel_format, uint8_t total_palette, uint8_t total_pixels)
+palettes_t *palette_load(const uint8_t *data, uint16_t pixel_format, uint8_t total_palette, uint8_t total_pixels)
 {
     if(!total_palette || !total_pixels) return NULL;
     if(!(pixel_format == 0x8888 || pixel_format == 0x4444 || pixel_format == 0x5515 || pixel_format == 0x6505)) return NULL;
-    container_t *res = container_alloc(total_palette);
-    if(!res) return NULL;
+    palettes_t *res = (palettes_t*)malloc(sizeof(palettes_t));
+    palette_t *palettes_tmp = (palette_t*)calloc(total_palette, sizeof(palette_t));
+    if(!res || !palettes_tmp)
+    {
+        if(res) free(res);
+        if(palettes_tmp) free(palettes_tmp);
+        return NULL;
+    }
 
     int cur_pos = 0;
     for(int i = 0; i < total_palette; i++)
     {
-        palette_t *palette_tmp = (palette_t*)malloc(sizeof(palette_t));
         uint32_t *t = (uint32_t*)calloc(total_pixels, sizeof(uint32_t));
         if(!t)
         {
             cur_pos += pixel_format == 0x8888 ? 4 * total_pixels : 2 * total_pixels;
-            if(!palette_tmp) free(palette_tmp);
-            container_put(res, NULL, i);
+            palettes_tmp[i].total_pixels = 0;
+            palettes_tmp[i].pixel_data = NULL;
             continue;
         }
 
@@ -152,9 +187,10 @@ container_t *palette_load(const uint8_t *data, uint16_t pixel_format, uint8_t to
                 }
             }
         }
-        palette_tmp->total_pixels = total_pixels;
-        palette_tmp->pixel_data = t;
-        container_put(res, palette_tmp, i);
+        palettes_tmp[i].total_pixels = total_pixels;
+        palettes_tmp[i].pixel_data = t;
     }
+    res->total_palettes = total_palette;
+    res->palettes = palettes_tmp;
     return res;
 }

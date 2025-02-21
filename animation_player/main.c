@@ -1,7 +1,8 @@
 #include "graphic.h"
 #include "sprite.h"
 
-#define FPS 4
+#define FPS 8
+#define SCALE 3
 
 // For animation use
 int frames_count = 0;
@@ -21,9 +22,9 @@ int init_res(graphic_t *graphic)
     // Background
     chunks[1] = chunk_load("files/0.f", 3);
 
-    animation = sprite_load(chunks[0], 5, graphic);
+    animation = sprite_load(chunks[0], SCALE, graphic);
     //sprite_set_cur_palette(animation, 2);
-    background = sprite_load(chunks[1], 5, graphic);
+    background = sprite_load(chunks[1], SCALE, graphic);
     if(!animation || !background) return 1;
 
     for(int i = 0; i < 2; i++)
@@ -33,11 +34,11 @@ int init_res(graphic_t *graphic)
 
 void draw_background(graphic_t *graphic)
 {
-    for(int y = 0; y < 3; y++)
+    for(int y = 0; y < 11; y++)
     {
-        for(int x = 0; x < 3; x++)
+        for(int x = 0; x < 11; x++)
         {
-            sprite_paint_single_image(background, graphic, 0, x * 120, y * 120);
+            sprite_paint_single_image(background, graphic, 0, x * 24 * SCALE, y * 24 * SCALE);
         }
     }
     return;
@@ -46,9 +47,9 @@ void draw_background(graphic_t *graphic)
 void draw_animation(graphic_t *graphic)
 {
     if(display_single_image)
-        sprite_paint_single_image(animation, graphic, frames_count, 120, 120);
+        sprite_paint_single_image(animation, graphic, frames_count, 24 * SCALE * 5, 24 * SCALE * 5);
     else
-        sprite_paint_tiles_image(animation, graphic, frames_count, 120, 120);
+        sprite_paint_tiles_image(animation, graphic, frames_count, 24 * SCALE * 5, 24 * SCALE * 5);
     return;
 }
 
@@ -60,7 +61,7 @@ int main(int argc, const char **argv)
     animation_src = argv[1];
     chunk_index = atoi(argv[2]);
 
-    if(graphic_init(&graphic, "DiamondRush Animation Player", 120 * 3, 120 * 3))
+    if(graphic_init(&graphic, "DiamondRush Animation Player", 24 * SCALE * 11, 24 * SCALE * 11))
     {
         fprintf(stderr, "Failed to init graphic.\n");
         return -1;

@@ -1,34 +1,6 @@
 #include <SDL2/SDL.h>
-
-#include <zlib.h>
 #include <errno.h>
-static unsigned char *_zlib_compress(unsigned char *data, int data_len, int *out_len, int quality)
-{
-    // quick and dirty
-    unsigned long out_len_ = compressBound(data_len);
-    unsigned char *data_out = malloc(out_len_);
-
-    if(data_out != NULL)
-    {
-        if(compress2(data_out, &out_len_, data, data_len, quality) == Z_OK)
-        {
-            *out_len = (int)out_len_;
-            return data_out;
-        }
-        else {
-            // TODO: handle compression error?
-            free(data_out);
-            return NULL;
-        }
-    } else {
-        // Out of memory?
-        return NULL;
-    }
-}
-#define STBIW_ZLIB_COMPRESS _zlib_compress
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#define STB_IMAGE_WRITE_STATIC
-#include "stb_image_write.h"
+#include "image_save.h"
 
 enum
 {
@@ -255,7 +227,7 @@ int graphic_take_screenshot(graphic_t *graphic, const char *filename)
         goto fail2;
     }
 
-    if(!stbi_write_png(filename, w, h, 4, pixel_data, w * 4))
+    if(!image_save_png(filename, w, h, 4, pixel_data, w * 4))
     {
         res = 0;
     }

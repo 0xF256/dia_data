@@ -79,7 +79,7 @@ sprite_t *sprite_load(chunk_t *sprite_chunk, int scale, graphic_t *graphic)
     dims_t *dims = NULL;
     tex_t **textures = NULL;
     tile_pos_t *tile_pos = NULL;
-    container_t *palettes = NULL;
+    palettes_t *palettes = NULL;
     tile_pos_info_t *tile_pos_info = NULL;
 
     uint16_t tmp;
@@ -193,7 +193,7 @@ sprite_t *sprite_load(chunk_t *sprite_chunk, int scale, graphic_t *graphic)
     }
     res->cur_palette = 0;
     // Don't forget to free palettes
-    palette_free(palettes);
+    palettes_free(palettes);
     return res;
 
 fail:
@@ -212,7 +212,7 @@ fail:
             }
             free(textures);
         }
-        palette_free(palettes);
+        palettes_free(palettes);
         free(res);
     }
     return NULL;
