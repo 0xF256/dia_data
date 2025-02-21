@@ -74,7 +74,7 @@ void sprite_free(sprite_t *sprite)
     return;
 }
 
-sprite_t *sprite_load(chunk_t *sprite_chunk, int scale, graphic_t *graphic)
+sprite_t *sprite_load(const uint8_t *sprite_data, int scale, graphic_t *graphic)
 {
     dims_t *dims = NULL;
     tex_t **textures = NULL;
@@ -86,7 +86,7 @@ sprite_t *sprite_load(chunk_t *sprite_chunk, int scale, graphic_t *graphic)
 
     sprite_t *res = NULL;
 
-    if(!sprite_chunk) return NULL;
+    if(!sprite_data) return NULL;
     if(scale <= 1) scale = 1;
 
     res = (sprite_t*)calloc(1, sizeof(sprite_t));
@@ -94,7 +94,7 @@ sprite_t *sprite_load(chunk_t *sprite_chunk, int scale, graphic_t *graphic)
 
     // TODO: Add sprite file magic check
     size_t cur_pos = 6;
-    uint8_t *sprite_data = sprite_chunk->data;
+    //uint8_t *sprite_data = sprite_chunk->data;
 
     // tiles_count
     bytes_copy(sprite_data, &cur_pos, &res->total_tiles, 2);

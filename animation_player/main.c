@@ -1,34 +1,142 @@
+#include <stdlib.h>
+#include <string.h>
+#include "chunk.h"
 #include "graphic.h"
 #include "sprite.h"
 
-#define FPS 8
-#define SCALE 3
+#include "background_data.h"
 
 // For animation use
+int scale;
+int frames_per_sec;
 int frames_count = 0;
 int display_single_image = 0;
-
-int chunk_index;
-const char *animation_src;
 
 sprite_t *animation;
 sprite_t *background;
 
-int init_res(graphic_t *graphic)
+struct options_s
 {
-    chunk_t *chunks[2];
-    // Animation chunk load
-    chunks[0] = chunk_load(animation_src, chunk_index);
-    // Background
-    chunks[1] = chunk_load("files/0.f", 3);
+    int scale;
+    int bg_index;
+    int dump_frames;
+    int chunk_index;
+    int palette_index;
+    int frames_per_sec;
+    const char *animation_src;
+} options = {
+    3, 0, 0, -1, 0, 8, NULL
+};
 
-    animation = sprite_load(chunks[0], SCALE, graphic);
-    //sprite_set_cur_palette(animation, 2);
-    background = sprite_load(chunks[1], SCALE, graphic);
+#define COUNT_CHECK() if(i++ == argc - 1) goto fail
+#define INVALID_ARG(x) fprintf(stderr, "Info: Invalid %s, using default setting.\n", #x)
+int get_options(struct options_s *opts, int argc, const char **argv)
+{
+    // 这里就不需要加这个了
+    // if(!opts) { exit(-1); }
+    int i;
+    int tmp;
+    for(i = 1; i < argc; i++)
+    {
+        if(strlen(argv[i]) == 2 && argv[i][0] == '-')
+        {
+            switch(argv[i][1])
+            {
+                // scale
+                case 's':
+                    COUNT_CHECK();
+                    tmp = atoi(argv[i]);
+                    if(tmp > 0 && tmp < 5)
+                        opts->scale = tmp;
+                    else
+                        INVALID_ARG(scale);
+                    break;
+
+                // background index
+                case 'b':
+                    COUNT_CHECK();
+                    tmp = atoi(argv[i]);
+                    if(tmp >= 0 && tmp < 3)
+                        opts->bg_index = tmp;
+                    else
+                        INVALID_ARG(background);
+                    break;
+
+                // chunk index
+                case 'c':
+                    COUNT_CHECK();
+                    tmp = atoi(argv[i]);
+                    if(tmp >= 0)
+                        opts->chunk_index = tmp;
+                    else
+                    {
+                        fprintf(stderr, "Error: Invalid chunk index\n");
+                        return -1;
+                    }
+                    break;
+
+                // palette index
+                case 'p':
+                    COUNT_CHECK();
+                    tmp = atoi(argv[i]);
+                    if(tmp > 0)
+                        opts->palette_index = tmp;
+                    else
+                        INVALID_ARG(palette_index);
+                    break;
+
+                // fps
+                case 'f':
+                    COUNT_CHECK();
+                    tmp = atoi(argv[i]);
+                    if(tmp > 0 && tmp <= 60)
+                        opts->frames_per_sec = tmp;
+                    else
+                        INVALID_ARG(fps);
+                    break;
+
+                // dump frames
+                case 'd':
+                    opts->dump_frames = 1;
+                    break;
+
+                default:
+                    fprintf(stderr, "%s: invalid option -- %c\n", argv[0], argv[i][0]);
+                    return -1;
+            }
+        } else
+            opts->animation_src = argv[i];
+    }
+
+    if(opts->chunk_index < 0)
+    {
+        fprintf(stderr, "Error: No chunk index to be used.\n");
+        return -1;
+    }
+    if(!(opts->animation_src))
+    {
+        fprintf(stderr, "Error: No file to be used.\n");
+        return -1;
+    }
+    return 0;
+
+fail:
+    fprintf(stderr, "%s: option requires an argument -- %c\n", argv[0], argv[i][0]);
+    return -1;
+}
+
+int init_res(graphic_t *graphic, const char *animation_src, int chunk_index, int palette_index, int scale, int bg_index)
+{
+    chunk_t *animation_chunk;
+    // Animation chunk load
+    animation_chunk = chunk_load(animation_src, chunk_index);
+
+    animation = sprite_load(animation_chunk->data, scale, graphic);
+    sprite_set_cur_palette(animation, palette_index);
+    background = sprite_load(backgrounds[bg_index], scale, graphic);
     if(!animation || !background) return 1;
 
-    for(int i = 0; i < 2; i++)
-        free(chunks[i]);
+    free(animation_chunk);
     return 0;
 }
 
@@ -38,7 +146,7 @@ void draw_background(graphic_t *graphic)
     {
         for(int x = 0; x < 11; x++)
         {
-            sprite_paint_single_image(background, graphic, 0, x * 24 * SCALE, y * 24 * SCALE);
+            sprite_paint_single_image(background, graphic, 0, x * 24 * scale, y * 24 * scale);
         }
     }
     return;
@@ -47,9 +155,9 @@ void draw_background(graphic_t *graphic)
 void draw_animation(graphic_t *graphic)
 {
     if(display_single_image)
-        sprite_paint_single_image(animation, graphic, frames_count, 24 * SCALE * 5, 24 * SCALE * 5);
+        sprite_paint_single_image(animation, graphic, frames_count, 24 * scale * 5, 24 * scale * 5);
     else
-        sprite_paint_tiles_image(animation, graphic, frames_count, 24 * SCALE * 5, 24 * SCALE * 5);
+        sprite_paint_tiles_image(animation, graphic, frames_count, 24 * scale * 5, 24 * scale * 5);
     return;
 }
 
@@ -57,19 +165,23 @@ int main(int argc, const char **argv)
 {
     graphic_t *graphic;
 
-    if(argc != 3) return -1;
-    animation_src = argv[1];
-    chunk_index = atoi(argv[2]);
-
-    if(graphic_init(&graphic, "DiamondRush Animation Player", 24 * SCALE * 11, 24 * SCALE * 11))
+    if(get_options(&options, argc, argv))
     {
-        fprintf(stderr, "Failed to init graphic.\n");
+        // help();
+        return -1;
+    }
+    scale = options.scale;
+    frames_per_sec = options.frames_per_sec;
+
+    if(graphic_init(&graphic, "DiamondRush Animation Player", 24 * scale * 11, 24 * scale * 11))
+    {
+        fprintf(stderr, "Error: Failed to init graphic.\n");
         return -1;
     }
 
-    if(init_res(graphic))
+    if(init_res(graphic, options.animation_src, options.chunk_index, options.palette_index, options.scale, options.bg_index))
     {
-        fprintf(stderr, "Failed to init resources.\n");
+        fprintf(stderr, "Error: Failed to init resources.\n");
         return -1;
     }
 
@@ -79,10 +191,32 @@ int main(int argc, const char **argv)
         display_single_image = 1;
         if(!(total_image = sprite_get_tile_count(animation)))
         {
-            fprintf(stderr, "No images found in file.\n");
+            fprintf(stderr, "Erorr: No images found in file.\n");
             return -1;
         }
         fprintf(stderr, "Info: Player will display single image.\n");
+    }
+
+    if(options.dump_frames)
+    {
+        char buf[128];
+        for(int i = 0; i < total_image; i++)
+        {
+            frames_count = i;
+        #ifdef WINNT
+            sprintf(buf, "save\\frames_dump_%03d.png", i+1);
+        #else
+            sprintf(buf, "save/frames_dump_%03d.png", i+1);
+        #endif
+            draw_background(graphic);
+            draw_animation(graphic);
+            graphic_present(graphic);
+            if(!graphic_take_screenshot(graphic, buf))
+            {
+                fprintf(stderr, "Info: [%s] saved\n", buf);
+            }
+        }
+        goto release_res;
     }
 
     graphic_show_window(graphic);
@@ -111,7 +245,7 @@ int main(int argc, const char **argv)
 
         uint32_t current = SDL_GetTicks();
         uint32_t cost = current - begin;
-        long delay = (1000/FPS) - cost;
+        long delay = (1000/frames_per_sec) - cost;
         if(delay > 0)
         {
             SDL_Delay(delay);
@@ -119,6 +253,7 @@ int main(int argc, const char **argv)
 
         frames_count = (frames_count + 1) % total_image;
     }
+release_res:
     sprite_free(background);
     sprite_free(animation);
     graphic_quit(graphic);

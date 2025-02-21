@@ -43,5 +43,5 @@ static unsigned char *_zlib_compress(unsigned char *data, int data_len, int *out
 
 int image_save_png(char const *filename, int x, int y, int comp, const void *data, int stride_bytes)
 {
-    return stbi_write_png(filename, x, y, comp, data, stride_bytes);
+    return !stbi_write_png(filename, x, y, comp, data, stride_bytes);
 }
