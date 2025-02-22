@@ -83,6 +83,7 @@ sprite_t *sprite_load(const uint8_t *sprite_data, int scale, graphic_t *graphic)
     tile_pos_info_t *tile_pos_info = NULL;
 
     uint16_t tmp;
+    size_t cur_pos = 0;
 
     sprite_t *res = NULL;
 
@@ -92,9 +93,16 @@ sprite_t *sprite_load(const uint8_t *sprite_data, int scale, graphic_t *graphic)
     res = (sprite_t*)calloc(1, sizeof(sprite_t));
     if(!res) return NULL;
 
-    // TODO: Add sprite file magic check
-    size_t cur_pos = 6;
-    //uint8_t *sprite_data = sprite_chunk->data;
+    // check file magic
+    const static uint8_t magic[] = { 0xdf, 0x03, 0x01, 0x01, 0x01, 0x01 };
+    for(int i = 0; i < sizeof(magic)/sizeof(magic[0]); i++)
+    {
+        if(magic[i] != sprite_data[i])
+        {
+            return NULL;
+        }
+        cur_pos++;
+    }
 
     // tiles_count
     bytes_copy(sprite_data, &cur_pos, &res->total_tiles, 2);
