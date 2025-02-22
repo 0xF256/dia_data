@@ -34,7 +34,7 @@ struct options_s
     3, 0, 0, -1, 0, 8, NULL
 };
 
-#define COUNT_CHECK() if(i++ == argc - 1) goto fail
+#define COUNT_CHECK() if(++i == argc) goto fail
 #define INVALID_ARG(x) fprintf(stderr, "Info: Invalid %s, using default setting.\n", #x)
 int get_options(struct options_s *opts, int argc, const char **argv)
 {
@@ -107,7 +107,7 @@ int get_options(struct options_s *opts, int argc, const char **argv)
                     break;
 
                 default:
-                    fprintf(stderr, "%s: invalid option -- %c\n", argv[0], argv[i][0]);
+                    fprintf(stderr, "%s: invalid option -- %c\n", argv[0], argv[i][1]);
                     return -1;
             }
         } else
@@ -127,7 +127,8 @@ int get_options(struct options_s *opts, int argc, const char **argv)
     return 0;
 
 fail:
-    fprintf(stderr, "%s: option requires an argument -- %c\n", argv[0], argv[i][0]);
+    i--;
+    fprintf(stderr, "%s: option requires an argument -- %c\n", argv[0], argv[i][1]);
     return -1;
 }
 
