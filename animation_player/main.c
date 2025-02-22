@@ -6,6 +6,12 @@
 
 #include "background_data.h"
 
+#define ABOUT \
+    "DiamondRush Animation Player v1.0 built on " __DATE__ " " __TIME__ ".\n" \
+    "Copyright (c) 2025 - written by SilentTalk.\n" \
+    "Licensed under MIT. See source distribution for detailed\n" \
+    "copyright notices.\n\n"
+
 // For animation use
 int scale;
 int frames_per_sec;
@@ -125,6 +131,20 @@ fail:
     return -1;
 }
 
+void print_help()
+{
+    fprintf(stderr, ABOUT);
+    fprintf(stderr, "Usage: animation_player [-d] [-f FPS] [-s SCALE] [-b BG_INDEX] [-c CHUNK_INDEX] [-p PALETTE_INDEX] [FILE]\n\n");
+    fprintf(stderr, "Play animations from DiamondRush's file\n\n");
+    fprintf(stderr, "  -d                Dump all animation frames\n");
+    fprintf(stderr, "  -f FPS            Set player FPS\n");
+    fprintf(stderr, "  -s SCALE          Rescale the image\n");
+    fprintf(stderr, "  -b BG_INDEX       Set background index (default: 0)\n");
+    fprintf(stderr, "  -c CHUNK_INDEX    Specify the chunk to extract\n");
+    fprintf(stderr, "  -p PALETTE_INDEX  Specify the palette to be used\n");
+    return;
+}
+
 int init_res(graphic_t *graphic, const char *animation_src, int chunk_index, int palette_index, int scale, int bg_index)
 {
     chunk_t *animation_chunk;
@@ -167,7 +187,7 @@ int main(int argc, const char **argv)
 
     if(get_options(&options, argc, argv))
     {
-        // help();
+        print_help();
         return -1;
     }
     scale = options.scale;
