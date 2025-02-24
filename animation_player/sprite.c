@@ -109,7 +109,7 @@ sprite_t *sprite_load(const uint8_t *sprite_data, int scale, graphic_t *graphic)
     if(res->total_tiles <= 0) goto fail;
 
     // dimensions
-    dims = (dims_t*)malloc(sizeof(dims_t) * res->total_tiles);
+    dims = (dims_t*)calloc(res->total_tiles, sizeof(dims_t));
     if(!dims) goto fail;
 
     res->dims = dims;
@@ -122,7 +122,7 @@ sprite_t *sprite_load(const uint8_t *sprite_data, int scale, graphic_t *graphic)
     // tile_pos
     bytes_copy(sprite_data, &cur_pos, &tmp, 2);
     res->total_tile_pos = tmp;
-    if(tmp) tile_pos = (tile_pos_t*)malloc(sizeof(tile_pos_t) * tmp);
+    if(tmp) tile_pos = (tile_pos_t*)calloc(tmp, sizeof(tile_pos_t));
     for(int i = 0; i < tmp; i++)
     {
         tile_pos[i].index = sprite_data[cur_pos++];
@@ -135,7 +135,7 @@ sprite_t *sprite_load(const uint8_t *sprite_data, int scale, graphic_t *graphic)
     // tile_pos_info
     bytes_copy(sprite_data, &cur_pos, &tmp, 2);
     res->total_tile_pos_info = tmp;
-    if(tmp) tile_pos_info = (tile_pos_info_t*)malloc(sizeof(tile_pos_info_t) * tmp);
+    if(tmp) tile_pos_info = (tile_pos_info_t*)calloc(tmp, sizeof(tile_pos_info_t));
     for(int i = 0; i < tmp; i++)
     {
         tile_pos_info[i].count = sprite_data[cur_pos++];
@@ -172,7 +172,7 @@ sprite_t *sprite_load(const uint8_t *sprite_data, int scale, graphic_t *graphic)
     bytes_copy(sprite_data, &cur_pos, &tmp, 2);
 
     // texture decode
-    textures = (tex_t**)calloc(total_palette * res->total_tiles, sizeof(void*));
+    textures = (tex_t**)calloc(total_palette * res->total_tiles, sizeof(tex_t*));
     if(!textures) goto fail;
 
     res->textures = textures;
