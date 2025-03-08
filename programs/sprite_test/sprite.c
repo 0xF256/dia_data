@@ -225,9 +225,10 @@ sprite_t *sprite_load(chunk_t *sprite_chunk, int scale)
         if(!(res->tile_pos_info)) goto fail3;
 
         if(get_pos_info(sprite_chunk, total_tile_pos_info, res->tile_pos_info)) goto fail4;
+
+        // Unknown data (part of tile pos info, ignore)
+        if(chunk_skip_bytes(sprite_chunk, total_tile_pos_info * 4)) goto fail4;
     }
-    // Unknown data (part of tile pos info, ignore)
-    if(chunk_skip_bytes(sprite_chunk, total_tile_pos_info * 4)) goto fail4;
 
     // Unknown data (ignore)
     {
