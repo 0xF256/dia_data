@@ -1,5 +1,6 @@
-#include <SDL2/SDL.h>
 #include <errno.h>
+#include <string.h>
+#include <SDL2/SDL.h>
 #include "image_save.h"
 
 enum
@@ -25,42 +26,32 @@ typedef struct
     SDL_Texture *texture;
 } tex_t;
 
-int graphic_init(graphic_t **graphic, const char *window_name, int width, int height)
+static graphic_t *_this = NULL;
+
+int graphic_init(const char *window_name, int width, int height)
 {
     graphic_t *res;
     SDL_Window *win = NULL;
     SDL_Renderer *render = NULL;
 
-    if(!graphic)
-    {
-        SDL_LogError(SDL_LOG_CATEGORY_VIDEO,
-            "Error: Invalid param (graphic is NULL)");
-        return -1;
-    }
+    if(_this) return 1;
 
     res = (graphic_t*)malloc(sizeof(graphic_t));
     if(!res)
     {
-        SDL_LogError(SDL_LOG_CATEGORY_VIDEO,
-            "Failed to alloc memory!");
+        fprintf(stderr, "Failed to alloc memory!\n");
         return -1;
     }
     res->width = width;
     res->height = height;
 
-    // 设置 video 的 LOG_LEVEL
-    // SDL_LogSetPriority(SDL_LOG_CATEGORY_VIDEO, SDL_LOG_PRIORITY_ERROR);
-
-    // 初始化 SDL，注意 SDL_INIT_VIDEO 会初始化 SDL_INIT_EVENTS
     if(SDL_Init(SDL_INIT_VIDEO))
     {
-        // 初始化失败，处理错误
         SDL_LogError(SDL_LOG_CATEGORY_VIDEO,
             "Couldn't initialize SDL: %s", SDL_GetError());
         goto fail;
     }
 
-    // 创建窗口
     res->window = win = SDL_CreateWindow(
         window_name, 
         SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
@@ -73,16 +64,16 @@ int graphic_init(graphic_t **graphic, const char *window_name, int width, int he
         goto fail;
     }
 
-    res->render = render = SDL_CreateRenderer(win, -1, /*SDL_RENDERER_SOFTWARE);*/SDL_RENDERER_ACCELERATED);
+    res->render = render = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
     if(!render)
     {
         SDL_LogError(SDL_LOG_CATEGORY_VIDEO,
             "CreateRenderer failed: %s", SDL_GetError());
         goto fail;
     }
-
-    *graphic = res;
+    _this = res;
     return 0;
+
 fail:
     if(render) SDL_DestroyRenderer(render);
     if(win) SDL_DestroyWindow(win);
@@ -91,42 +82,34 @@ fail:
     return -1;
 }
 
-int graphic_get_width(graphic_t *graphic)
+int graphic_get_width()
 {
-    if(!graphic) return -1;
+    if(!_this) return -1;
 
-    return graphic->width;
+    return _this->width;
 }
 
-int graphic_get_height(graphic_t *graphic)
+int graphic_get_height()
 {
-    if(!graphic) return -1;
+    if(!_this) return -1;
 
-    return graphic->height;
+    return _this->height;
 }
 
-void *graphic_get_render(graphic_t *graphic)
+void graphic_show_window()
 {
-    if(!graphic) return NULL;
+    if(!_this) return;
 
-    return (void*)(graphic->render);
-}
-
-void graphic_show_window(graphic_t *graphic)
-{
-    if(!graphic) return;
-
-    SDL_ShowWindow(graphic->window);
+    SDL_ShowWindow(_this->window);
     return;
 }
 
-void graphic_draw_region(graphic_t *graphic, tex_t *texture, int x, int y, int transform)
+void graphic_draw_region(tex_t *texture, int x, int y, int transform)
 {
     double rotate = 0.0f;
     SDL_RendererFlip filp = SDL_FLIP_NONE;
 
-    if(!graphic || !texture) return;
-    if(texture->width <= 0 || texture->height <= 0) return;
+    if(!_this || !texture) return;
 
     SDL_Rect dstrect = { x, y, texture->width, texture->height };
 
@@ -142,43 +125,45 @@ void graphic_draw_region(graphic_t *graphic, tex_t *texture, int x, int y, int t
         case TRANS_NONE:                // 0
             break;
     }
-    SDL_RenderCopyEx(graphic->render, texture->texture, NULL, &dstrect, rotate, NULL, filp);
+    SDL_RenderCopyEx(_this->render, texture->texture, NULL, &dstrect, rotate, NULL, filp);
     return;
 }
 
-void graphic_present(graphic_t *graphic)
+void graphic_present()
 {
-    if(!graphic) return;
+    if(!_this) return;
 
-    SDL_RenderPresent(graphic->render);
+    SDL_RenderPresent(_this->render);
     return;
 }
 
-void graphic_quit(graphic_t *graphic)
+void graphic_quit()
 {
-    if(!graphic) return;
+    if(!_this) return;
 
-    SDL_DestroyWindow(graphic->window);
-    SDL_DestroyRenderer(graphic->render);
-    free(graphic);
+    SDL_DestroyRenderer(_this->render);
+    SDL_DestroyWindow(_this->window);
+    free(_this);
     SDL_Quit();
 
+    _this = NULL;
+
     return;
 }
 
-tex_t *graphic_create_texture(graphic_t *graphic, const void *pixels, int w, int h, int pitch)
+tex_t *graphic_create_texture(const void *pixels, int w, int h, int pitch)
 {
     tex_t *res;
     SDL_Texture *tex = NULL;
 
-    if(!graphic) return NULL;
+    if(!_this) return NULL;
 
     res = (tex_t*)malloc(sizeof(tex_t));
     if(!res) return NULL;
     res->width = w;
     res->height = h;
 
-    tex = SDL_CreateTexture(graphic->render, SDL_PIXELFORMAT_BGRA32, SDL_TEXTUREACCESS_STATIC, w, h);
+    tex = SDL_CreateTexture(_this->render, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STATIC, w, h);
     if(!tex) goto fail;
     res->texture = tex;
 
@@ -186,8 +171,8 @@ tex_t *graphic_create_texture(graphic_t *graphic, const void *pixels, int w, int
     {
         goto fail;
     }
+    SDL_SetTextureBlendMode(tex, SDL_BLENDMODE_BLEND);
 
-    if(SDL_SetTextureBlendMode(tex, SDL_BLENDMODE_BLEND)) puts("Failed to set blend");
     return res;
 fail:
     if(tex) SDL_DestroyTexture(tex);
@@ -198,17 +183,18 @@ fail:
 void graphic_destroy_texture(tex_t *tex)
 {
     if(!tex) return;
+
     SDL_DestroyTexture(tex->texture);
     free(tex);
     return;
 }
 
-int graphic_take_screenshot(graphic_t *graphic, const char *filename)
+int graphic_take_screenshot(const char *filename)
 {
     int res = -1;
 
-    int w = graphic_get_width(graphic);
-    int h = graphic_get_height(graphic);
+    int w = graphic_get_width();
+    int h = graphic_get_height();
     if(w <= 0 || h <= 0)
     {
         SDL_SetError("Invalid graphic!");
@@ -219,7 +205,7 @@ int graphic_take_screenshot(graphic_t *graphic, const char *filename)
     if(!pixel_data) return -1;
 
     if(SDL_RenderReadPixels(
-        graphic->render, NULL,
+        _this->render, NULL,
         SDL_PIXELFORMAT_RGBA32,
         pixel_data, w * 4))
     {

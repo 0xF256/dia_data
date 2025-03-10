@@ -1,8 +1,9 @@
+#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "chunk.h"
-#include "graphic.h"
 #include "sprite.h"
+#include "graphic.h"
+#include "texture.h"
 
 #include "background_data.h"
 
@@ -12,14 +13,16 @@
     "Licensed under MIT. See source distribution for detailed\n" \
     "copyright notices.\n\n"
 
-// For animation use
 int scale;
 int frames_per_sec;
 int frames_count = 0;
 int display_single_image = 0;
 
+tex_t *background = NULL;
+
+tex_t **textures;
+int texture_count;
 sprite_t *animation;
-sprite_t *background;
 
 struct options_s
 {
@@ -38,7 +41,6 @@ struct options_s
 #define INVALID_ARG(x) fprintf(stderr, "Info: Invalid %s, using default setting.\n", #x)
 int get_options(struct options_s *opts, int argc, const char **argv)
 {
-    // 这里就不需要加这个了
     // if(!opts) { exit(-1); }
     int i;
     int tmp;
@@ -52,7 +54,7 @@ int get_options(struct options_s *opts, int argc, const char **argv)
                 case 's':
                     COUNT_CHECK();
                     tmp = atoi(argv[i]);
-                    if(tmp > 0 && tmp < 5)
+                    if(tmp > 0 && tmp <= 5)
                         opts->scale = tmp;
                     else
                         INVALID_ARG(scale);
@@ -85,7 +87,7 @@ int get_options(struct options_s *opts, int argc, const char **argv)
                 case 'p':
                     COUNT_CHECK();
                     tmp = atoi(argv[i]);
-                    if(tmp > 0)
+                    if(tmp >= 0)
                         opts->palette_index = tmp;
                     else
                         INVALID_ARG(palette_index);
@@ -146,46 +148,158 @@ void print_help()
     return;
 }
 
-int init_res(graphic_t *graphic, const char *animation_src, int chunk_index, int palette_index, int scale, int bg_index)
+int load_background_texture(int index)
 {
-    chunk_t *animation_chunk;
-    // Animation chunk load
-    animation_chunk = chunk_load(animation_src, chunk_index);
+    int res = -1;
+    // if(index < 0 || index > 3) return -1;
+    texture_t *texture;
+    palettes_t *palettes;
 
-    animation = sprite_load(animation_chunk->data, scale, graphic);
-    sprite_set_cur_palette(animation, palette_index);
-    background = sprite_load(backgrounds[bg_index], scale, graphic);
-    if(!animation || !background) return 1;
+    uint8_t total_color = bg[index].total_color;
+    const uint8_t *decode_data = bg[index].decode_data;
+    const uint8_t *palette_data = bg[index].palette_data;
 
-    free(animation_chunk);
-    return 0;
+    palettes = palette_load(palette_data, 0x5515, 1, total_color);
+    if(!palettes) return 1;
+
+    texture = texture_load(decode_data, 0x120, 0x1600, palette_get(palettes, 0), 24, 24, scale);
+    if(!texture) goto fail1;
+
+    background = graphic_create_texture(texture_get_pixels(texture), 24 * scale, 24 * scale, 24 * scale * 4);
+    if(!background) goto fail2;
+
+    res = 0;
+fail2:
+    texture_free(texture);
+fail1:
+    palettes_free(palettes);
+    return res;
 }
 
-void draw_background(graphic_t *graphic)
+int init_res(const char *animation_src, int chunk_index, int palette_index, int bg_index)
+{
+    chunk_t *animation_chunk;
+    animation_chunk = chunk_load(animation_src, chunk_index);
+
+    animation = sprite_load(animation_chunk, scale);
+    if(!animation || load_background_texture(bg_index))
+    {
+        fprintf(stderr, "Failed to load file\n");
+        goto fail1;
+    }
+
+    texture_count = sprite_get_texture_count(animation);
+    textures = (tex_t**)calloc(texture_count, sizeof(tex_t*));
+    if(!textures) goto fail1;
+    for(int i = 0; i < texture_count; i++)
+    {
+        texture_t *texture = sprite_get_texture(animation, i, palette_index);
+        if(!texture) goto fail2;
+
+        int w = texture_get_width(texture);
+        int h = texture_get_height(texture);
+        const uint32_t *pixels = texture_get_pixels(texture);
+        textures[i] = graphic_create_texture(pixels, w, h, w * 4);
+
+        texture_free(texture);
+        if(!textures[i]) goto fail2;
+    }
+
+    chunk_free(animation_chunk);
+    return 0;
+
+fail2:
+    for(int i = 0; i < texture_count; i++)
+    {
+        if(!textures[i]) break;
+        graphic_destroy_texture(textures[i]);
+    }
+    free(textures);
+fail1:
+    chunk_free(animation_chunk);
+    graphic_destroy_texture(background);
+    return -1;
+}
+
+void free_res()
+{
+    for(int i = 0; i < texture_count; i++)
+    {
+        graphic_destroy_texture(textures[i]);
+    }
+    free(textures);
+    graphic_destroy_texture(background);
+
+    sprite_free(animation);
+    graphic_quit();
+    return;
+}
+
+void draw_background()
 {
     for(int y = 0; y < 11; y++)
     {
         for(int x = 0; x < 11; x++)
         {
-            sprite_paint_single_image(background, graphic, 0, x * 24 * scale, y * 24 * scale);
+            graphic_draw_region(background, x * 24 * scale, y * 24 * scale, 0);
         }
     }
     return;
 }
 
-void draw_animation(graphic_t *graphic)
+void sprite_paint_tiles_image(sprite_t *sprite, int pos_info_index, int x, int y)
+{
+    static int init = 0;
+
+    int count, offset;
+    static size_t total_pos_info;
+
+    static tile_pos_t *tile_pos;
+    static pos_info_t *tile_pos_info;
+
+    if(!sprite) return;
+    if(pos_info_index < 0) return;
+
+    if(!init)
+    {
+        tile_pos = sprite_get_tile_pos(sprite, NULL);
+        tile_pos_info = sprite_get_tile_pos_info(sprite, &total_pos_info);
+
+        init = 1;
+    }
+
+    if(total_pos_info <= 0 || total_pos_info <= pos_info_index) return;
+
+    count = tile_pos_info[pos_info_index].count;
+    offset = tile_pos_info[pos_info_index].offset;
+
+    int tex_index, tile_x, tile_y, transform;
+    for(int i = 0; i < count; i++)
+    {
+        tex_index = tile_pos[i+offset].tex_index;
+        tile_x = tile_pos[i+offset].x;
+        tile_y = tile_pos[i+offset].y;
+        transform = tile_pos[i+offset].transform;
+
+        graphic_draw_region(textures[tex_index], x + tile_x, y + tile_y, transform);
+    }
+    return;
+}
+
+void draw_animation()
 {
     if(display_single_image)
-        sprite_paint_single_image(animation, graphic, frames_count, 24 * scale * 5, 24 * scale * 5);
-    else
-        sprite_paint_tiles_image(animation, graphic, frames_count, 24 * scale * 5, 24 * scale * 5);
+    {
+        graphic_draw_region(textures[frames_count], 24 * 5 * scale, 24 * 5 * scale, 0);
+        return;
+    }
+
+    sprite_paint_tiles_image(animation, frames_count, 24 * 5 * scale, 24 * 5 * scale);
     return;
 }
 
 int main(int argc, const char **argv)
 {
-    graphic_t *graphic;
-
     if(get_options(&options, argc, argv))
     {
         print_help();
@@ -194,15 +308,15 @@ int main(int argc, const char **argv)
     scale = options.scale;
     frames_per_sec = options.frames_per_sec;
 
-    if(graphic_init(&graphic, "DiamondRush Animation Player", 24 * scale * 11, 24 * scale * 11))
+    if(graphic_init("DiamondRush Animation Player", 24 * 11 * scale, 24 * 11 * scale))
     {
-        fprintf(stderr, "Error: Failed to init graphic.\n");
+        fprintf(stderr, "Failed to init graphic.\n");
         return -1;
     }
 
-    if(init_res(graphic, options.animation_src, options.chunk_index, options.palette_index, options.scale, options.bg_index))
+    if(init_res(options.animation_src, options.chunk_index, options.palette_index, options.bg_index))
     {
-        fprintf(stderr, "Error: Failed to init resources.\n");
+        fprintf(stderr, "Failed to load resources.\n");
         return -1;
     }
 
@@ -210,7 +324,7 @@ int main(int argc, const char **argv)
     if(!total_image)
     {
         display_single_image = 1;
-        if(!(total_image = sprite_get_tile_count(animation)))
+        if(!(total_image = sprite_get_texture_count(animation)))
         {
             fprintf(stderr, "Erorr: No images found in file.\n");
             return -1;
@@ -229,18 +343,22 @@ int main(int argc, const char **argv)
         #else
             sprintf(buf, "save/frames_dump_%03d.png", i+1);
         #endif
-            draw_background(graphic);
-            draw_animation(graphic);
-            graphic_present(graphic);
-            if(!graphic_take_screenshot(graphic, buf))
+            draw_background();
+            draw_animation();
+            graphic_present();
+            if(!graphic_take_screenshot(buf))
             {
                 fprintf(stderr, "Info: [%s] saved\n", buf);
+            }
+            else
+            {
+                fprintf(stderr, "%s\n", SDL_GetError());
             }
         }
         goto release_res;
     }
 
-    graphic_show_window(graphic);
+    graphic_show_window();
 
     SDL_Event event;
     SDL_bool running = SDL_TRUE;
@@ -259,10 +377,10 @@ int main(int argc, const char **argv)
         }
         if(!running) break;
 
-        draw_background(graphic);
-        draw_animation(graphic);
+        draw_background();
+        draw_animation();
 
-        graphic_present(graphic);
+        graphic_present();
 
         uint32_t current = SDL_GetTicks();
         uint32_t cost = current - begin;
@@ -274,9 +392,8 @@ int main(int argc, const char **argv)
 
         frames_count = (frames_count + 1) % total_image;
     }
+
 release_res:
-    sprite_free(background);
-    sprite_free(animation);
-    graphic_quit(graphic);
+    free_res();
     return 0;
 }
