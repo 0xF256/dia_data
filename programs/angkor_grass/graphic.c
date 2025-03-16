@@ -255,7 +255,7 @@ int graphic_take_screenshot(graphic_t *graphic, const char *filename)
         goto fail2;
     }
 
-    if(!stbi_write_png(filename, w, h, 4, pixel_data, w * 4))
+    if(stbi_write_png(filename, w, h, 4, pixel_data, w * 4))
     {
         res = 0;
     }
