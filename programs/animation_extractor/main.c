@@ -106,7 +106,7 @@ fail:
 void print_help()
 {
     fprintf(stderr, ABOUT);
-    fprintf(stderr, "Usage: animation_extractor [-d] [-f FPS] [-s SCALE] [-b BG_INDEX] [-c CHUNK_INDEX] [-p PALETTE_INDEX] [FILE]\n\n");
+    fprintf(stderr, "Usage: animation_extractor [-s SCALE] [-c CHUNK_INDEX] [-p PALETTE_INDEX] [FILE]\n\n");
     fprintf(stderr, "Extract animations from DiamondRush's file\n\n");
     fprintf(stderr, "  -s SCALE          Rescale the image\n");
     fprintf(stderr, "  -c CHUNK_INDEX    Specify the chunk to extract\n");
