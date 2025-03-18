@@ -75,7 +75,7 @@ texture_t *texture_load(const uint8_t *decode_data, const uint16_t decode_len, c
             {
                 uint32_t color_tmp;
                 int index_tmp = decode_data[i];
-                if(index_tmp < 127)
+                if(index_tmp <= 127)
                 {
                     PUT(palette_get_color(palette, index_tmp));
                     continue;
@@ -144,13 +144,14 @@ texture_t *texture_load(const uint8_t *decode_data, const uint16_t decode_len, c
             for(int i = 0; i < decode_len; i++)
             {
                 int index_tmp = decode_data[i];
-                if(index_tmp < 127)
+                if(index_tmp <= 127)
                 {
                     uint32_t color_tmp = palette_get_color(palette, decode_data[++i]);
                     while(index_tmp-- > 0)
                     {
                         PUT(color_tmp);
                     }
+                    continue;
                 }
 
                 index_tmp -= 128;
