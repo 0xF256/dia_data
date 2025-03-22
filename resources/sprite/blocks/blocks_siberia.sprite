@@ -1,0 +1,328 @@
+{
+
+    VERSION 0001
+
+    IMAGE 0x0000 ".\blocks_siberia.png" TRANSP 0x00FF00FF
+
+    MODULES
+    {
+        MD 0x1000 MD_IMAGE 0      0      0 24 24
+        MD 0x1001 MD_IMAGE 0     24      0 24 24
+        MD 0x1002 MD_IMAGE 0     48      0 24 24
+        MD 0x1003 MD_IMAGE 0     72      0 24 24
+        MD 0x1004 MD_IMAGE 0     96      0 24 24
+        MD 0x1005 MD_IMAGE 0    120      0 24 24
+        MD 0x1006 MD_IMAGE 0    144      0 24 24
+        MD 0x1007 MD_IMAGE 0    168      0 24 24
+        MD 0x1008 MD_IMAGE 0    192      0 24 24
+        MD 0x1009 MD_IMAGE 0      0     24 24 24
+        MD 0x100a MD_IMAGE 0     24     24 24 24
+        MD 0x100b MD_IMAGE 0     48     24 24 24
+        MD 0x100c MD_IMAGE 0     72     24 24 24
+        MD 0x100d MD_IMAGE 0     96     24 24 24
+        MD 0x100e MD_IMAGE 0    120     24 24 24
+        MD 0x100f MD_IMAGE 0    144     24 24 24
+        MD 0x1010 MD_IMAGE 0    168     24 24 24
+        MD 0x1011 MD_IMAGE 0    192     24 24 24
+        MD 0x1012 MD_IMAGE 0      0     48 24 24
+        MD 0x1013 MD_IMAGE 0     24     48 24 24
+        MD 0x1014 MD_IMAGE 0     48     48 24 24
+        MD 0x1015 MD_IMAGE 0     72     48 24 24
+        MD 0x1016 MD_IMAGE 0     96     48 24 24
+        MD 0x1017 MD_IMAGE 0    120     48 24 24
+        MD 0x1018 MD_IMAGE 0    144     48 24 24
+        MD 0x1019 MD_IMAGE 0    168     48 24 24
+        MD 0x101a MD_IMAGE 0    192     48 24 24
+        MD 0x101b MD_IMAGE 0      0     72 24 24
+        MD 0x101c MD_IMAGE 0     24     72 24 24
+        MD 0x101d MD_IMAGE 0     48     72 24 24
+        MD 0x101e MD_IMAGE 0     72     72 24 24
+        MD 0x101f MD_IMAGE 0     96     72 24 24
+        MD 0x1020 MD_IMAGE 0    120     72 24 24
+        MD 0x1021 MD_IMAGE 0    144     72 24 24
+        MD 0x1022 MD_IMAGE 0    168     72 24 24
+        MD 0x1023 MD_IMAGE 0    192     72 24 24
+        MD 0x1024 MD_IMAGE 0      0     96 24 24
+        MD 0x1025 MD_IMAGE 0     24     96 24 24
+        MD 0x1026 MD_IMAGE 0     48     96 24 24
+        MD 0x1027 MD_IMAGE 0     72     96 24 24
+        MD 0x1028 MD_IMAGE 0     96     96 24 24
+        MD 0x1029 MD_IMAGE 0    120     96 24 24
+        MD 0x102a MD_IMAGE 0    144     96 24 24
+        MD 0x102b MD_IMAGE 0    168     96 24 24
+        MD 0x102c MD_IMAGE 0    192     96 24 24
+    }
+
+    FRAME ""
+    {
+        0x2000
+        FM 0x1000 0 0
+    }
+
+    FRAME ""
+    {
+        0x2001
+        FM 0x1001 0 0
+    }
+
+    FRAME ""
+    {
+        0x2002
+        FM 0x1002 0 0
+    }
+
+    FRAME ""
+    {
+        0x2003
+        FM 0x1003 0 0
+    }
+
+    FRAME ""
+    {
+        0x2004
+        FM 0x1004 0 0
+    }
+
+    FRAME ""
+    {
+        0x2005
+        FM 0x1005 0 0
+    }
+
+    FRAME ""
+    {
+        0x2006
+        FM 0x1006 0 0
+    }
+
+    FRAME ""
+    {
+        0x2007
+        FM 0x1007 0 0
+    }
+
+    FRAME ""
+    {
+        0x2008
+        FM 0x1008 0 0
+    }
+
+    FRAME ""
+    {
+        0x2009
+        FM 0x1009 0 0
+    }
+
+    FRAME ""
+    {
+        0x200a
+        FM 0x100a 0 0
+    }
+
+    FRAME ""
+    {
+        0x200b
+        FM 0x100b 0 0
+    }
+
+    FRAME ""
+    {
+        0x200c
+        FM 0x100c 0 0
+    }
+
+    FRAME ""
+    {
+        0x200d
+        FM 0x100d 0 0
+    }
+
+    FRAME ""
+    {
+        0x200e
+        FM 0x100e 0 0
+    }
+
+    FRAME ""
+    {
+        0x200f
+        FM 0x100f 0 0
+    }
+
+    FRAME ""
+    {
+        0x2010
+        FM 0x1010 0 0
+    }
+
+    FRAME ""
+    {
+        0x2011
+        FM 0x1011 0 0
+    }
+
+    FRAME ""
+    {
+        0x2012
+        FM 0x1012 0 0
+    }
+
+    FRAME ""
+    {
+        0x2013
+        FM 0x1013 0 0
+    }
+
+    FRAME ""
+    {
+        0x2014
+        FM 0x1014 0 0
+    }
+
+    FRAME ""
+    {
+        0x2015
+        FM 0x1015 0 0
+    }
+
+    FRAME ""
+    {
+        0x2016
+        FM 0x1016 0 0
+    }
+
+    FRAME ""
+    {
+        0x2017
+        FM 0x1017 0 0
+    }
+
+    FRAME ""
+    {
+        0x2018
+        FM 0x1018 0 0
+    }
+
+    FRAME ""
+    {
+        0x2019
+        FM 0x1019 0 0
+    }
+
+    FRAME ""
+    {
+        0x201a
+        FM 0x101a 0 0
+    }
+
+    FRAME ""
+    {
+        0x201b
+        FM 0x101b 0 0
+    }
+
+    FRAME ""
+    {
+        0x201c
+        FM 0x101c 0 0
+    }
+
+    FRAME ""
+    {
+        0x201d
+        FM 0x101d 0 0
+    }
+
+    FRAME ""
+    {
+        0x201e
+        FM 0x101e 0 0
+    }
+
+    FRAME ""
+    {
+        0x201f
+        FM 0x101f 0 0
+    }
+
+    FRAME ""
+    {
+        0x2020
+        FM 0x1020 0 0
+    }
+
+    FRAME ""
+    {
+        0x2021
+        FM 0x1021 0 0
+    }
+
+    FRAME ""
+    {
+        0x2022
+        FM 0x1022 0 0
+    }
+
+    FRAME ""
+    {
+        0x2023
+        FM 0x1023 0 0
+    }
+
+    FRAME ""
+    {
+        0x2024
+        FM 0x1024 0 0
+    }
+
+    FRAME ""
+    {
+        0x2025
+        FM 0x1025 0 0
+    }
+
+    FRAME ""
+    {
+        0x2026
+        FM 0x1026 0 0
+    }
+
+    FRAME ""
+    {
+        0x2027
+        FM 0x1027 0 0
+    }
+
+    FRAME ""
+    {
+        0x2028
+        FM 0x1028 0 0
+    }
+
+    FRAME ""
+    {
+        0x2029
+        FM 0x1029 0 0
+    }
+
+    FRAME ""
+    {
+        0x202a
+        FM 0x102a 0 0
+    }
+
+    FRAME ""
+    {
+        0x202b
+        FM 0x102b 0 0
+    }
+
+    FRAME ""
+    {
+        0x202c
+        FM 0x102c 0 0
+    }
+
+    SPRITE_END
+
+}
