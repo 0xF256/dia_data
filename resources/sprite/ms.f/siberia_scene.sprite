@@ -1,0 +1,117 @@
+{
+
+    VERSION 0001
+
+    IMAGE 0x0000 "siberia_scene.png" TRANSP 0x00FF00FF
+
+    MODULES
+    {
+        MD 0x1000 MD_IMAGE        0       0       0      27      20
+        MD 0x1001 MD_IMAGE        0      27       0      41      21
+        MD 0x1002 MD_IMAGE        0      68       4      21      13
+        MD 0x1003 MD_IMAGE        0      89       0       9      31
+        MD 0x1004 MD_IMAGE        0      98       3      24      24
+        MD 0x1005 MD_IMAGE        0     122      13      18       5
+        MD 0x1006 MD_IMAGE        0       0      31      62       5
+        MD 0x1007 MD_IMAGE        0      62      31      57       7
+        MD 0x1008 MD_IMAGE        0     119      31      21      26
+        MD 0x1009 MD_IMAGE        0     140      33      13      22
+        MD 0x100a MD_IMAGE        0     153      36      24      16
+        MD 0x100b MD_IMAGE        0     177      40      14       8
+        MD 0x100c MD_IMAGE        0       0      57      22       9
+        MD 0x100d MD_IMAGE        0      22      57       4      14
+        MD 0x100e MD_IMAGE        0      26      61      47       5
+        MD 0x100f MD_IMAGE        0      73      61      38       6
+        MD 0x1010 MD_IMAGE        0     111      59      25       9
+        MD 0x1011 MD_IMAGE        0     136      59      18       9
+        MD 0x1012 MD_IMAGE        0       0      71      16      10
+        MD 0x1013 MD_IMAGE        0      16      71      42       9
+        MD 0x1014 MD_IMAGE        0      58      74      34       4
+        MD 0x1015 MD_IMAGE        0      92      73      31       6
+        MD 0x1016 MD_IMAGE        0     123      74      14       4
+        MD 0x1017 MD_IMAGE        0     137      71      21      22
+        MD 0x1018 MD_IMAGE        0       0      93      20      12
+        MD 0x1019 MD_IMAGE        0      20      93      35      18
+        MD 0x101a MD_IMAGE        0      55      96      37      12
+    }
+
+    FRAME ""
+    {
+        0x2000
+        FM 0x1003 14 0
+        FM 0x1003 -40 0
+        FM 0x1003 -49 0
+        FM 0x1003 -58 0
+        FM 0x1003 -67 0
+        FM 0x1003 -76 0
+        FM 0x1003 -85 0
+        FM 0x1003 -94 0
+        FM 0x1003 -103 0
+        FM 0x1003 -103 0
+        FM 0x1003 23 0
+        FM 0x1003 32 0
+        FM 0x1003 41 0
+        FM 0x1003 50 0
+        FM 0x1003 59 0
+        FM 0x1003 68 0
+        FM 0x1003 77 0
+        FM 0x1003 -22 0
+        FM 0x1003 -31 0
+        FM 0x1003 5 0
+        FM 0x1003 -13 0
+        FM 0x1003 -4 0
+        FM 0x100a 57 0 +FLIP_X
+        FM 0x1009 81 -6 +FLIP_X
+        FM 0x1011 102 0
+        FM 0x1012 96 9
+        FM 0x1019 -10 13
+        FM 0x101a 3 31
+        FM 0x1007 -43 31
+        FM 0x1007 -43 31
+        FM 0x1006 -38 38
+        FM 0x1006 -38 38
+        FM 0x1009 -35 9
+        FM 0x1009 -35 9
+        FM 0x100a -22 15
+        FM 0x100a -22 15
+        FM 0x1008 -56 5
+        FM 0x1008 -56 5
+        FM 0x1009 -82 6
+        FM 0x100a -69 12
+        FM 0x100e -102 17
+        FM 0x100f -99 11
+        FM 0x1006 -85 35
+        FM 0x1010 -94 2
+        FM 0x1007 -90 28
+        FM 0x1000 -120 0
+        FM 0x1001 -120 19
+        FM 0x1002 -79 27
+        FM 0x100b 15 23
+        FM 0x100c 7 31
+        FM 0x1007 47 14 +FLIP_X
+        FM 0x1004 24 2
+        FM 0x1004 48 2 +FLIP_X
+        FM 0x100d 57 26
+        FM 0x100d 61 26
+        FM 0x100d 64 26
+        FM 0x1016 85 17
+        FM 0x1008 94 -10 +FLIP_X
+        FM 0x1015 68 21
+        FM 0x1017 99 18
+        FM 0x1018 100 6
+        FM 0x100d 29 26
+        FM 0x100d 33 26
+        FM 0x100d 37 26
+        FM 0x100d 41 26
+        FM 0x100d 45 26
+        FM 0x100d 49 26
+        FM 0x100d 53 26
+        FM 0x100d 49 26
+        FM 0x1005 50 29
+        FM 0x1005 4 35
+        FM 0x1013 57 31
+        FM 0x1014 65 27
+    }
+
+    SPRITE_END
+}
