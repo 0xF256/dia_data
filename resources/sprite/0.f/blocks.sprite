@@ -131,7 +131,7 @@
     FRAME ""
     {
         0x200f
-        FM 0x1005 0 0 +FILP_X +FLIP_Y
+        FM 0x1005 0 0 +FLIP_X +FLIP_Y
     }
 
     FRAME ""
