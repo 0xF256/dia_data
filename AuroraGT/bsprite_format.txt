@@ -1,0 +1,124 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// BSprite v3  - Binary Sprite file format
+//
+//    * color formats:
+//          _8888       A8 R8 G8 B8     4 bytes/color
+//          _0888       R8 G8 B8        3 bytes/color
+//          _4444       A4 R4 G4 B4     2 bytes/color
+//          _1555       A1 R5 G5 B5     2 bytes/color
+//          _0565       R5 G6 B5        2 bytes/color
+//          _0332       R3 G3 B2        1 byte/color
+//
+//    * data formats:
+//          I2          maximum   2 colors (indexed), packed data 8 pixels / 1 byte  (1 bit /pixel)
+//          I4          maximum   4 colors (indexed), packed data 4 pixels / 1 byte  (2 bits/pixel)
+//      //  I8          maximum   8 colors (indexed), packed data 8 pixels / 3 bytes (3 bits/pixel)
+//          I16         maximum  16 colors (indexed), packed data 2 pixels / 1 byte  (4 bits/pixel)
+//      //  I32         maximum  32 colors (indexed), packed data 8 pixels / 5 bytes (5 bits/pixel)
+//      //  I64         maximum  64 colors (indexed), packed data 4 pixels / 3 bytes (6 bits/pixel)
+//      //  I128        maximum 128 colors (indexed), packed data 8 pixels / 7 bytes (7 bits/pixel)
+//          I256        maximum 256 colors (indexed), raw data    1 pixel  / 1 byte  (8 bits/pixel)
+//          I64RLE      maximum  64 colors (indexed), compressed data (RLE)
+//          I127RLE     maximum 127 colors (indexed), compressed data (RLE)
+//          I256RLE     maximum 256 colors (indexed), compressed data (RLE)
+//          A256I63RLE     maximum 256 colors (indexed), compressed data (RLE) have alpha channel
+//          A256I127RLE     maximum 256 colors (indexed), compressed data (RLE) have alpha channel
+//          A256I256RLE     maximum 256 colors (indexed), compressed data (RLE) have alpha channel
+//          A32I8           maximum 8 colors (indexed), 5 bits for alpha channel and 3 bits for colors
+//          A8I32           maximum 32 colors (indexed), 3 bits for alpha channel and 5 bits for colors
+//          A256I64         maximum 64 colors (indexed), have alpha channel
+//          A256I128        maximum 128 colors (indexed), have alpha channel
+//          A256I256        maximum 256 colors (indexed), have alpha channel
+//          RAW         non indexed, raw format
+//          GIF         encode gif data for DOJA
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////
+    // Header...
+
+    2 bytes -> file type/version (BSPRITE_v3 = 0xDF, 0x03)
+    4 bytes -> flags (BS_...) /* You can try different bsprite export options to figure out all the flags in it */
+
+    //////////////////////////////////////////////////
+    // Modules...
+
+    2 bytes -> nm = number of modules
+    for each module (nm):
+    {
+        1 byte -> module_width
+        1 byte -> module_height
+    }
+
+    //////////////////////////////////////////////////
+    // Frames...
+
+    2 bytes -> tnfm = total number of frame modules (FModules)
+    for each FModule (tnfm):
+    {
+
+        1 byte -> module index
+        1 byte -> offset x
+        1 byte -> offset y
+        1 byte -> flags         /* NONE, FILP_X, FILP_Y, FILP_XY (That's all the flags I found in the game) */
+    }
+
+    2 bytes -> nf = number of frames
+    for each frame (nf):
+    {
+        1 byte -> number of FModules used by this frame
+        2 bytes -> first FModule index
+    }
+
+    // Frame Rects
+    for each frame (nf):
+    {
+	    1 byte -> bound rect x  // vertex x
+	    1 byte -> bound rect y  // vertex y
+	    1 byte -> bound rect w  // frame width
+	    1 byte -> bound rect h  // frame height
+    }
+
+    //////////////////////////////////////////////////
+    // Anims...
+
+    2 bytes -> tnaf = total number of animation frames (AFrames)
+    for each AFrame (tnaf):
+    {
+        1 byte -> frame index
+        1 byte -> time          // It's the frame number determines how long they display
+        1 byte -> offset x
+        1 byte -> offset y
+        1 byte -> flags
+    }
+
+    2 bytes -> na = number of animations
+    for each animation (na):
+    {
+        2 byte -> number of AFrames used by this animation
+        2 bytes -> first AFrame index
+    }
+
+
+    //////////////////////////////////////////////////
+    // Modules image data...
+
+    2 bytes -> pixel format
+    1 byte -> np = number of palettes (max 256)
+    1 byte -> nc = number of colors / palette (max 256)
+    switch (pixel format)
+    {
+        case "8888":    np * nc * 4 bytes -> each color is 4 bytes long
+    //  case "0888":    np * nc * 3 bytes -> each color is 3 bytes long
+        case "4444":
+        case "1555":
+        case "0565":    np * nc * 2 bytes -> each color is 2 bytes long
+        case "0332":    np * nc * 1 byte  -> each color is 1 byte long
+    }
+
+    2 bytes -> data format
+    for each module (nm):
+    {
+        2 bytes -> ms = module image size
+        ms bytes -> module image data
+    }
