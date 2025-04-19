@@ -66,7 +66,7 @@
     2 bytes -> nf = number of frames
     for each frame (nf):
     {
-        2 byte -> number of FModules used by this frame
+        2 bytes -> number of FModules used by this frame
         2 bytes -> first FModule index
     }
 
