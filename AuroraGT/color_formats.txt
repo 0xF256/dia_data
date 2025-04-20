@@ -1,0 +1,55 @@
+format 0x8888 (ARGB8888)
+{
+    1 byte -> B
+    1 byte -> G
+    1 byte -> R
+    1 byte -> A
+}
+
+format 0x0888 (RGB888)
+{
+    A = 0xff
+    1 byte -> B
+    1 byte -> G
+    1 byte -> R
+}
+
+format 0x4444 (ARGB4444)
+{
+    2 bytes -> src
+
+    A = ((src & 0xf000) >> 8) | ((src & 0xf000) >> 12)
+    R = ((src & 0x0f00) >> 4) | ((src & 0x0f00) >>  8)
+    G = ((src & 0x00f0)     ) | ((src & 0x00f0) >>  4)
+    B = ((src & 0x000f) << 4) | ((src & 0x000f)      )
+}
+
+format 0x1555 (ARGB1555)
+{
+    2 bytes -> src
+
+    A = (src & 0x8000) ? 0xff : 0x00
+    R = (src & 0x7c00) >> 7
+    G = (src & 0x03e0) >> 2
+    B = (src & 0x001f) << 3
+}
+
+format 0x0565 (RGB565, transp 0xf81f)
+{
+    2 bytes -> src
+
+    A = (src == transp) ? 0x00 : 0xff
+    R = (src & 0xf800) >> 8
+    G = (src & 0x07e0) >> 3
+    B = (src & 0x001f) << 3
+}
+
+format 0x0332 (RGB332, transp 0xc0)
+{
+    1 byte -> src
+
+    A = (src == transp) ? 0x00 : 0xff
+    R = (src & 0xe0)
+    G = (src & 0x1c) << 3
+    B = (src & 0x03) << 6
+}
