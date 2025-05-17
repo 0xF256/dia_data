@@ -1,0 +1,36 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// BSprite (Binary Sprite)
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// obsolete BSPRITE v1 - non modular
+//
+//      2 bytes -> data format (I2, I4, I16, I127_, I256)
+//      2 bytes -> pixel format (4444)
+//
+//      1 byte -> np = number of palettes (max 256)
+//      1 byte -> nc = number of colors / palette
+//      np * nc * 2 bytes -> each color is 2 byte long "4444"
+//
+//      2 bytes -> nf = number of frames
+//      for each frame (nf):
+//          1 byte -> frame width
+//          1 byte -> frame height
+//          1 byte -> frame hotspot x
+//          1 byte -> frame hotspot y
+//      for each frame (nf):
+//          2 bytes -> fs = frame image size
+//          fs bytes -> frame image data
+//
+//      2 bytes -> naf = number of animation frames (AFrames)
+//      for each AFrame (naf):
+//          1 byte -> frame index
+//          1 byte -> time
+//          1 byte -> top time
+//          1 byte -> top value
+//
+//      2 bytes -> na = number of animations
+//      for each animation (na):
+//          2 bytes -> number of AFrames used by this animation
+//          2 bytes -> first AFrame index
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////

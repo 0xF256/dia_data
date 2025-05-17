@@ -1,0 +1,60 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// BSprite (Binary Sprite)
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// obsolete BSPRITE v2 - modular (palettes -> at the begining)
+//
+//      2 bytes -> file type/version
+//      2 bytes -> flags
+//
+//      2 bytes -> pixel format
+//      2 bytes -> data format
+//
+//      1 byte -> np = number of palettes (max 256)
+//      1 byte -> nc = number of colors / palette (max 256)
+//      switch (pixel foramt)
+//      {
+//          case "8888":    np * nc * 4 bytes -> each color is 4 byte long
+//          case "4444":    np * nc * 2 bytes -> each color is 2 byte long 
+//      }
+//
+//      2 bytes -> nm = number of modules
+//      for each module (nm):
+//        [ 1 byte -> frame pos x ]
+//        [ 1 byte -> frame pos y ]
+//          1 byte -> frame width
+//          1 byte -> frame height
+//
+//      2 bytes -> nfm = total number of frame modules (FModules)
+//      for each FModule (nfm):
+//          1 byte -> module index // 2+8 bits
+//          1 byte -> offset x
+//          1 byte -> offset y
+//          1 bytes -> flags // bits 4, 5, 6, 7 are extension for module index
+//      2 bytes -> nf = number of frames
+//      for each frame (nf):
+//          2 bytes -> number of FModules used by this frame
+//          2 bytes -> first FModule index
+//      for each frame (nf):
+//          1 byte -> bound rect x
+//          1 byte -> bound rect y
+//          1 byte -> bound rect w
+//          1 byte -> bound rect h
+//
+//      2 bytes -> naf = total number of animation frames (AFrames)
+//      for each AFrame (naf):
+//          1 byte -> frame index // 2+8 bits
+//          1 byte -> time
+//          1 byte -> offset x
+//          1 byte -> offset y
+//          1 bytes -> flags // bits 4, 5, 6, 7 are extension for frame index
+//      2 bytes -> na = number of animations
+//      for each animation (na):
+//          2 bytes -> number of AFrames used by this animation
+//          2 bytes -> first AFrame index
+//
+//      for each module (nm):
+//          2 bytes -> ms = module image size
+//          ms bytes -> module image data
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////

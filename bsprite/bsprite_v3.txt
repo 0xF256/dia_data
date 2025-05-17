@@ -1,0 +1,247 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// BSprite v3  - Binary Sprite file format
+//
+//  History:
+//      2005.06.04, added BS_NAF_1_BYTE
+//      2005.06.20, added MD_RECT & MD_FILL_RECT
+//      2005.09.19, added: color format _1555, _0565; data format I256RLE
+//      2005.09.28, added BS_MODULES_IMG, BS_NFM_1_BYTE, BS_SKIP_FRAME_RC
+//      2005.12.15, added BS_FRAME_COLL_RC
+//
+//    * flexible file format
+//    * multiple palettes
+//    * all modules share the same palette(s)
+//    * modular frames
+//    * animations
+//    * up to 1024 modules
+//    * up to 1024 frames
+//
+//    * color formats:
+//          _8888       A8 R8 G8 B8     4 bytes/color
+//          _0888       R8 G8 B8        3 bytes/color
+//          _4444       A4 R4 G4 B4     2 bytes/color
+//          _1555       A1 R5 G5 B5     2 bytes/color
+//          _0565       R5 G6 B5        2 bytes/color
+//          _0332       R3 G3 B2        1 byte/color
+//
+//    * data formats:
+//          I2          maximum   2 colors (indexed), packed data 8 pixels / 1 byte  (1 bit /pixel)
+//          I4          maximum   4 colors (indexed), packed data 4 pixels / 1 byte  (2 bits/pixel)
+//      //  I8          maximum   8 colors (indexed), packed data 8 pixels / 3 bytes (3 bits/pixel)
+//          I16         maximum  16 colors (indexed), packed data 2 pixels / 1 byte  (4 bits/pixel)
+//      //  I32         maximum  32 colors (indexed), packed data 8 pixels / 5 bytes (5 bits/pixel)
+//      //  I64         maximum  64 colors (indexed), packed data 4 pixels / 3 bytes (6 bits/pixel)
+//      //  I128        maximum 128 colors (indexed), packed data 8 pixels / 7 bytes (7 bits/pixel)
+//          I256        maximum 256 colors (indexed), raw data    1 pixel  / 1 byte  (8 bits/pixel)
+//          I64RLE      maximum  64 colors (indexed), compressed data (RLE)
+//          I127RLE     maximum 127 colors (indexed), compressed data (RLE)
+//          I256RLE     maximum 256 colors (indexed), compressed data (RLE)
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////
+    // Header...
+
+    2 bytes -> file type/version (BSPRITE_v003 = 0x03DF)
+    4 bytes -> flags (BS_...)
+
+    //////////////////////////////////////////////////
+    // Modules...
+
+    if (BS_MODULES)
+    {
+        2 bytes -> nm = number of modules
+        for each module (nm):
+        {
+            if (next byte == 0xFF) // -> MD_RECT
+            {
+                1 byte -> 0xFF
+                4 bytes -> color
+                1 byte -> frame width
+                1 byte -> frame height
+            }
+            else if (next byte == 0xFE) // -> MD_FILL_RECT
+            {
+                1 byte -> 0xFE
+                4 bytes -> color
+                1 byte -> frame width
+                1 byte -> frame height
+            }
+            else // -> MD_IMAGE
+            {
+                if (BS_MODULES_IMG)
+                {
+                    1 byte -> image
+                }
+                if (BS_MODULES_XY_SHORT)
+                {
+                    2 byte -> frame pos x
+                    2 byte -> frame pos y
+                }
+                else if (BS_MODULES_XY)
+                {
+                    1 byte -> frame pos x
+                    1 byte -> frame pos y
+                }
+                1 byte -> frame width
+                1 byte -> frame height
+            }
+        }
+    }
+
+    //////////////////////////////////////////////////
+    // Frames...
+
+    if (BS_FRAMES)
+    {
+        2 bytes -> tnfm = total number of frame modules (FModules)
+        for each FModule (tnfm):
+        {
+            1 byte -> module or hyper frame index // 2+8 bits
+            if (BS_FM_OFF_SHORT)
+            {
+                2 bytes -> offset x
+                2 bytes -> offset y
+            }
+            else
+            {
+                1 byte -> offset x
+                1 byte -> offset y
+            }
+            1 bytes -> flags // bits 4, 5, 6, 7 are extension for module index
+        }
+        2 bytes -> nf = number of frames
+        for each frame (nf):
+        {
+            if (BS_NFM_1_BYTE)
+                1 byte -> number of FModules used by this frame
+            else
+                2 bytes -> number of FModules used by this frame
+            2 bytes -> first FModule index
+        }
+        if (!BS_SKIP_FRAME_RC)
+        {
+            for each frame (nf):
+            {
+                1 byte -> bound rect x
+                1 byte -> bound rect y
+                1 byte -> bound rect w
+                1 byte -> bound rect h
+            }
+        }
+        if (BS_FRAME_COLL_RC)
+        {
+            for each frame (nf):
+            {
+                1 byte -> collision rect x
+                1 byte -> collision rect y
+                1 byte -> collision rect w
+                1 byte -> collision rect h
+            }
+        }
+    }
+
+    //////////////////////////////////////////////////
+    // Anims...
+
+    if (BS_ANIMS)
+    {
+        2 bytes -> tnaf = total number of animation frames (AFrames)
+        for each AFrame (tnaf):
+        {
+            1 byte -> frame index // 2+8 bits
+            1 byte -> time
+            if (BS_AF_OFF_SHORT)
+            {
+                2 bytes -> offset x
+                2 bytes -> offset y
+            }
+            else
+            {
+                1 byte -> offset x
+                1 byte -> offset y
+            }
+            1 bytes -> flags // bits 4, 5, 6, 7 are extension for frame index
+        }
+        2 bytes -> na = number of animations
+        for each animation (na):
+        {
+            if (BS_NAF_1_BYTE)
+                1 byte -> number of AFrames used by this animation
+            else
+                2 bytes -> number of AFrames used by this animation
+            if (number of AFrames > 0)
+                2 bytes -> first AFrame index
+        }
+    }
+
+    //////////////////////////////////////////////////
+    // Modules image data...
+
+    if (BS_MODULE_IMAGES)
+    {
+        2 bytes -> pixel format
+        1 byte -> np = number of palettes (max 256)
+        1 byte -> nc = number of colors / palette (max 256)
+        switch (pixel foramt)
+        {
+            case "8888":    np * nc * 4 bytes -> each color is 4 bytes long
+        //  case "0888":    np * nc * 3 bytes -> each color is 3 bytes long
+            case "4444":
+            case "1555":
+            case "0565":    np * nc * 2 bytes -> each color is 2 bytes long
+            case "0332":    np * nc * 1 byte  -> each color is 1 byte long
+        }
+        2 bytes -> data format
+        for each module (nm):
+        {
+            2 bytes -> ms = module image size
+            ms bytes -> module image data
+        }
+        if (BS_PNG_CRC)
+        {
+            np * 4 bytes -> "PLTE" CRC
+            np * 4 bytes -> "tRNS" CRC
+            nm * 4 bytes -> "IHDR" CRC
+            nm * 4 bytes -> "IDAT" ADLER
+            nm * 4 bytes -> "IDAT" CRC
+        }
+    }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// BSprite flags...
+
+#define BS_MODULES              ((DWORD)1 << 0)     // export modules
+#define BS_MODULES_XY           ((DWORD)1 << 1)     // export x, y for each module
+#define BS_MODULES_IMG          ((DWORD)1 << 2)     // export image index for each module
+#define BS_MODULES_XY_SHORT     ((DWORD)1 << 3)     // export x, y for each module as short
+//#define BS_MMAPPINGS          ((DWORD)1 << ??)    // export mmappings
+
+#define BS_FRAMES               ((DWORD)1 << 8)     // export frames
+//#define BS_                   ((DWORD)1 << 9)     //
+#define BS_FM_OFF_SHORT         ((DWORD)1 << 10)    // export fm offsets as shorts
+#define BS_NFM_1_BYTE           ((DWORD)1 << 11)    // export nfm as byte
+#define BS_SKIP_FRAME_RC        ((DWORD)1 << 12)    // do not export frame bound rect
+#define BS_FRAME_COLL_RC        ((DWORD)1 << 13)    // export frame collision rect
+//#define BS_FMAPPINGS          ((DWORD)1 << ??)    // export fmappings
+
+#define BS_ANIMS                ((DWORD)1 << 16)    // export anims
+//#define BS_                   ((DWORD)1 << 17)    //
+#define BS_AF_OFF_SHORT         ((DWORD)1 << 18)    // export af offsets as shorts
+#define BS_NAF_1_BYTE           ((DWORD)1 << 19)    // export naf as byte
+//#define BS_AMAPPINGS          ((DWORD)1 << ??)    // export amappings
+
+#define BS_MODULE_IMAGES        ((DWORD)1 << 24)    // export encoded images for each module
+#define BS_PNG_CRC              ((DWORD)1 << 25)    // export PNG additional info (CRCs) for each module
+#define BS_KEEP_PAL             ((DWORD)1 << 26)    // keep original palette (do not optimize colors)
+#define BS_TRANSP_FIRST         ((DWORD)1 << 27)    // move transparency as the first color(s)
+#define BS_TRANSP_LAST          ((DWORD)1 << 28)    // move transparency as the last color(s)
+
+#define BS_DEFAULT_DOJA         (BS_MODULES | BS_FRAMES | BS_ANIMS)
+#define BS_DEFAULT_MIDP2        (BS_MODULES | BS_FRAMES | BS_ANIMS | BS_MODULE_IMAGES)
+#define BS_DEFAULT_NOKIA        BS_DEFAULT_MIDP2
+#define BS_DEFAULT_MIDP1        (BS_MODULES | BS_MODULES_XY | BS_FRAMES | BS_ANIMS)
+#define BS_DEFAULT_MIDP1b       (BS_MODULES | BS_FRAMES | BS_ANIMS | BS_MODULE_IMAGES | BS_PNG_CRC)
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
