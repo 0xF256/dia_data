@@ -7,6 +7,7 @@
 //      2005.09.19, added: color format _1555, _0565; data format I256RLE
 //      2005.09.28, added BS_MODULES_IMG, BS_NFM_1_BYTE, BS_SKIP_FRAME_RC
 //      2005.12.15, added BS_FRAME_COLL_RC
+//		2006.03.15, added BS_FM_PALETTE
 //
 //    * flexible file format
 //    * multiple palettes
@@ -108,6 +109,8 @@
                 1 byte -> offset x
                 1 byte -> offset y
             }
+            if (BS_FM_PALETTE)
+		1 byte -> palette
             1 bytes -> flags // bits 4, 5, 6, 7 are extension for module index
         }
         2 bytes -> nf = number of frames
@@ -183,7 +186,7 @@
         2 bytes -> pixel format
         1 byte -> np = number of palettes (max 256)
         1 byte -> nc = number of colors / palette (max 256)
-        switch (pixel foramt)
+        switch (pixel format)
         {
             case "8888":    np * nc * 4 bytes -> each color is 4 bytes long
         //  case "0888":    np * nc * 3 bytes -> each color is 3 bytes long
@@ -208,6 +211,27 @@
         }
     }
 
+    //////////////////////////////////////////////////
+    // Modules image data...
+
+    if (BS_SINGLE_IMAGE)
+    {
+		2 bytes -> ps = png image size
+		ps bytes -> png image data
+
+        1 byte -> np = number of palettes (max 256)
+        1 byte -> nc = number of colors / palette (max 256)
+
+        for each palette (np):
+        {
+			nc * 3 bytes -> palette data bytes (PLTE)
+			4 bytes -> palette CRC
+
+			nc bytes -> transparency data bytes (tRNS)
+			4 bytes -> transparency CRC
+        }
+    }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // BSprite flags...
 
@@ -223,6 +247,7 @@
 #define BS_NFM_1_BYTE           ((DWORD)1 << 11)    // export nfm as byte
 #define BS_SKIP_FRAME_RC        ((DWORD)1 << 12)    // do not export frame bound rect
 #define BS_FRAME_COLL_RC        ((DWORD)1 << 13)    // export frame collision rect
+#define BS_FM_PALETTE			((DWORD)1 << 14)	// export palette used by the module
 //#define BS_FMAPPINGS          ((DWORD)1 << ??)    // export fmappings
 
 #define BS_ANIMS                ((DWORD)1 << 16)    // export anims
@@ -236,6 +261,7 @@
 #define BS_KEEP_PAL             ((DWORD)1 << 26)    // keep original palette (do not optimize colors)
 #define BS_TRANSP_FIRST         ((DWORD)1 << 27)    // move transparency as the first color(s)
 #define BS_TRANSP_LAST          ((DWORD)1 << 28)    // move transparency as the last color(s)
+#define BS_SINGLE_IMAGE		((DWORD)1 << 29)	// export sprite image as an PNG with CRCs for each palette
 
 #define BS_DEFAULT_DOJA         (BS_MODULES | BS_FRAMES | BS_ANIMS)
 #define BS_DEFAULT_MIDP2        (BS_MODULES | BS_FRAMES | BS_ANIMS | BS_MODULE_IMAGES)
