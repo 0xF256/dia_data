@@ -279,7 +279,7 @@ int main(int argc, const char **argv)
                     int endY = READ_U16();
                     int frames = READ_U16();
 
-                    // int startX = screenW, startY = screenH;
+                    // int startX = crtSprOffsetX, startY = crtSprOffsetY;
 
                     depth_printf(depth, "SET_SPR_MOVE_ANIM(endX:%d, endY:%d, frames:%d)\n", endX, endY, frames);
                     break;
