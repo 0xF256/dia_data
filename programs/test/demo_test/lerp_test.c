@@ -6,8 +6,6 @@ int main() {
     printf("Please enter startX startY endX endY frames\n");
     scanf("%d %d %d %d %d", &startX, &startY, &endX, &endY, &frames);
 
-    frames--;
-
     if (frames <= 0)
     {
         printf("Err: frames must be positive\n");
