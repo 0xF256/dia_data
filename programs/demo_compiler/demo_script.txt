@@ -1,0 +1,298 @@
+DEMO 0 
+{
+    MOVE_CAMERA 7 7 20
+    SET_BLOCK_3 8 7 26 0
+    DELAY 10
+    MOVE_CAMERA 11 9 30
+    DELAY 10
+    MOVE_CAMERA 11 7 30
+    DELAY 10
+}
+
+DEMO 1 
+{
+    MOVE_CAMERA 29 5 30
+    DELAY 20
+}
+
+DEMO 2 
+{
+    MOVE_CAMERA 22 16 50
+}
+
+DEMO 5 
+{
+    MOVE_CAMERA 21 14 30
+    DELAY 5
+    SET_BLOCK_4 21 15 0
+    DELAY 20
+    MOVE_CAMERA 26 16 30
+    DELAY 20
+    MOVE_CAMERA 17 17 30
+    DELAY 10
+    SET_BLOCK_3 17 17 26 0
+}
+
+DEMO 32 
+{
+    DELAY 30
+    MOVE_CAMERA 8 96 25
+    DELAY 60
+}
+
+DEMO 29 
+{
+    MOVE_CAMERA 6 4 5
+    SET_DEMO_SPR 2 2
+    SET_POS_AND_SHOW_DEMO_SPR 17 50
+    PAINT_CHAT 2 90 "The Great Temple Of Angkor Wat... "
+    SET_DEMO_SPR 1 2
+    PAINT_CHAT 1 90 "I'm finally in!"
+    SET_DEMO_SPR 3 2
+    SHOW_DECO_SYMBOL 3 3
+    PAINT_CHAT 1 90 "Let's go!"
+}
+
+DEMO 10 
+{
+    MOVE_CAMERA 31 6 5
+    SET_DEMO_SPR 7 2
+    SET_POS_AND_SHOW_DEMO_SPR 57 50
+    PAINT_CHAT 2 90 "I should check that chest first."
+    PLAYER_MOVE LEFT
+    SET_BLOCK_3 31 7 0 10
+}
+
+DEMO 11 
+{
+    PAINT_HINT "You found a compass! It will help you find your way out."
+    SET_BLOCK_3 31 7 255 255
+}
+
+DEMO 13 
+{
+    MOVE_CAMERA 38 7 20
+    PAINT_HINT "Avoid blocking your own path"
+    PLAYER_MOVE UP
+    PLAYER_MOVE UP
+    PLAYER_MOVE RIGHT
+    PLAYER_MOVE RIGHT
+    PLAYER_MOVE RIGHT
+    MOVE_CAMERA 40 8 20
+    SET_BLOCK_3 42 8 31 2
+    PAINT_HINT "when pushing rocks."
+    PAINT_HINT "You can return all elements to their original positions"
+    SET_BLOCK_3 42 8 255 255
+    SET_BLOCK_3 36 6 31 1
+    MOVE_CAMERA 37 7 20
+    PAINT_HINT "by going back to the last circle and pressing 5."
+    SET_DEMO_SPR 1 2
+    SET_BLOCK_3 40 7 255 255
+}
+
+DEMO 15 
+{
+    SET_BLOCK_3 37 7 255 255
+}
+
+DEMO 16 
+{
+    {
+        PLAYER_MOVE LEFT
+        PAINT_HINT "If you can't reach the circle"
+    }
+
+    PLAYER_MOVE RIGHT
+    PLAYER_MOVE UP
+    PLAYER_MOVE UP
+    PLAYER_MOVE RIGHT
+    PLAYER_MOVE RIGHT
+    PLAYER_MOVE RIGHT
+    MOVE_CAMERA 50 8 10
+    PAINT_HINT "and your way is blocked,"
+
+    {
+        PAINT_HINT "you can press * at any time to go back to the last circle,"
+        MOVE_CAMERA 36 7 50
+    }
+}
+
+DEMO 17 
+{
+    PAINT_HINT "but it will cost you a life."
+}
+
+DEMO 28 
+{
+    PLAYER_MOVE RIGHT
+    PLAYER_MOVE RIGHT
+    PLAYER_MOVE RIGHT
+    PLAYER_MOVE RIGHT
+    PLAYER_MOVE RIGHT
+    MOVE_CAMERA 62 3 55
+    SET_DEMO_SPR 2 2
+    SET_POS_AND_SHOW_DEMO_SPR 17 50
+    SHOW_DECO_SYMBOL 2 3
+    PAINT_CHAT 1 90 "Is this a kind of seal?"
+    HIDE_DEMO_SPR
+    PLAYER_MOVE UP
+    PLAYER_MOVE LEFT
+    PLAYER_MOVE UP
+    PLAYER_MOVE UP
+    PLAYER_MOVE UP
+    PLAYER_MOVE LEFT
+    PLAYER_MOVE UP
+    MOVE_CAMERA 60 1 55
+    SET_DEMO_SPR 0 2
+    SET_POS_AND_SHOW_DEMO_SPR 17 50
+    SCREEN_BLINK 3 0xffffff
+    SHOW_DECO_SYMBOL 1 3
+    PAINT_CHAT 2 230 "Ah! The seal is reacting!"
+    HIDE_DECO_SYMBOL 1 1
+    SET_DEMO_SPR 3 2
+    PAINT_CHAT 2 230 "Let's see what happens if I step on it..."
+    HIDE_DEMO_SPR
+    DELAY 30
+    PLAYER_MOVE RIGHT
+    DELAY 70
+}
+
+DEMO 20 
+{
+    PAINT_HINT "Look at the Magic Padlock in front of you!"
+    PAINT_HINT "Collect the indicated number of gems to open it."
+}
+
+DEMO 30 
+{
+    MOVE_CAMERA 6 17 5
+    SET_DEMO_SPR 2 2
+    SET_POS_AND_SHOW_DEMO_SPR 17 50
+    SHOW_DECO_SYMBOL 1 2
+    PAINT_CHAT 1 90 "Oh! This door is locked!"
+    SET_DEMO_SPR 3 2
+    PAINT_CHAT 2 90 "I'm sure the key must be nearby..."
+}
+
+DEMO 3 
+{
+    PLAYER_MOVE UP
+    MOVE_CAMERA 12 42 60
+    DELAY 20
+}
+
+DEMO 6 
+{
+    MOVE_CAMERA 28 18 40
+    DELAY 20
+    MOVE_CAMERA 26 11 40
+    DELAY 20
+}
+
+DEMO 4 
+{
+    MOVE_CAMERA 13 16 30
+    DELAY 20
+    MOVE_CAMERA 19 16 30
+}
+
+DEMO 19 
+{
+    MOVE_CAMERA 7 42 20
+    DELAY 20
+    MOVE_CAMERA 13 56 45
+    DELAY 20
+}
+
+DEMO 22 
+{
+    PAINT_HINT "You found the mystic mallet!"
+    PAINT_HINT "Press 5 to use it."
+    MOVE_CAMERA 26 17 10
+    SET_DEMO_SPR 2 2
+    SET_POS_AND_SHOW_DEMO_SPR 17 50
+    SHOW_DECO_SYMBOL 1 2
+    PAINT_CHAT 2 90 "Great! Now I can crush those weak walls."
+    HIDE_DECO_SYMBOL 1 1
+    MOVE_CAMERA 22 4 40
+    DELAY 5
+    SET_DEMO_SPR 1 2
+    DELAY 20
+}
+
+DEMO 23 
+{
+    PAINT_HINT "You found the mystic hook!"
+    PAINT_HINT "Press 5 from a distance to drag things towards you!"
+    MOVE_CAMERA 24 24 10
+    SET_DEMO_SPR 3 2
+    SET_POS_AND_SHOW_DEMO_SPR 17 50
+    PAINT_CHAT 2 90 "Interesting... Maybe with this..."
+    MOVE_CAMERA 17 14 30
+    DELAY 5
+    SET_DEMO_SPR 1 2
+    DELAY 20
+}
+
+DEMO 24 
+{
+    PAINT_HINT "You found the mystic potion!"
+    PAINT_HINT "Now you can breathe underwater."
+}
+
+DEMO 25 
+{
+    PAINT_HINT "You found the freeze mallet!"
+    PAINT_HINT "Press 5 to freeze objects!"
+    MOVE_CAMERA 32 21 10
+    SET_DEMO_SPR 2 2
+    SET_POS_AND_SHOW_DEMO_SPR 17 50
+    SHOW_DECO_SYMBOL 6 3
+    PAINT_CHAT 2 90 "Freeze things?"
+    MOVE_CAMERA 41 4 45
+    HIDE_DECO_SYMBOL 6 1
+    SET_DEMO_SPR 1 2
+    DELAY 10
+    PAINT_CHAT 2 90 "Let's try it out!"
+    DELAY 25
+}
+
+DEMO 33 
+{
+    MOVE_CAMERA 6 4 5
+    SET_DEMO_SPR 1 2
+    SET_POS_AND_SHOW_DEMO_SPR 17 50
+    PAINT_CHAT 2 90 "The final chamber in Angkor Wat! The Fire Crystal is supposed to be hidden here..."
+    SET_DEMO_SPR 3 2
+    PAINT_CHAT 2 90 "But I have a bad feeling about this..."
+}
+
+DEMO 34 
+{
+    SET_DEMO_SPR 1 2
+    SET_POS_AND_SHOW_DEMO_SPR 17 50
+    PAINT_CHAT 2 90 "The Silver Diamond is here... I'm sure of it!"
+    SET_DEMO_SPR 3 2
+    SCREEN_BLINK 1 0xffffff
+    SHOW_DECO_SYMBOL 0 3
+    PAINT_CHAT 2 90 "Hmm... I feel a dark force nearby..."
+    SET_DEMO_SPR 0 2
+    SHOW_DECO_SYMBOL 4 3
+    PAINT_CHAT 2 90 "Let's rock!"
+}
+
+DEMO 35 
+{
+    MOVE_CAMERA 8 15 5
+    SET_DEMO_SPR 3 2
+    SET_POS_AND_SHOW_DEMO_SPR 17 50
+    PAINT_CHAT 2 90 "The Ice Diamond must be in the final chamber in Tibet!"
+    SET_DEMO_SPR 0 2
+
+    {
+        SCREEN_BLINK 3 0xffffff
+        SHOW_DECO_SYMBOL 4 3
+    }
+
+    PAINT_CHAT 2 90 "It's now or never!"
+}
