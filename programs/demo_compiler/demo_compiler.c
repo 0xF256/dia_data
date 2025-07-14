@@ -817,6 +817,7 @@ int compile(FILE *out, word_t *word)
             }
         }
 
+        if(instr.param) free(instr.param);
         instr_free(instr.next);
         instr.next = NULL;
 
@@ -919,6 +920,7 @@ int main(int argc, const char **argv)
     if(!(num_word = parse_word(&word, fp)))
     {
         fprintf(stderr, "No word parsed\n");
+        if(word.word) free(word.word);
         word_free(word.next);
         fclose(fp);
         return -3;
@@ -937,6 +939,7 @@ int main(int argc, const char **argv)
     int retval = compile(fp, &word);
 
     fclose(fp);
+    if(word.word) free(word.word);
     word_free(word.next);
 
     return retval;
