@@ -1,0 +1,120 @@
+{
+    VERSION 0001
+
+    IMAGE 0x0000 "spr_1.png" TRANSP 0x00FF00FF
+
+    MODULES
+    {
+        MD 0x1000 MD_IMAGE 0    0    0   24   24
+        MD 0x1001 MD_IMAGE 0   30   24   11   11
+        MD 0x1002 MD_IMAGE 0   33    0   11   14
+        MD 0x1003 MD_IMAGE 0   24    0    9   16
+        MD 0x1004 MD_IMAGE 0   11   24   10   13
+        MD 0x1005 MD_IMAGE 0    0   37    8   10
+        MD 0x1006 MD_IMAGE 0    0   24   11   13
+        MD 0x1007 MD_IMAGE 0   21   24    9   12
+        MD 0x1008 MD_IMAGE 0   24   16    6    7
+    }
+
+    FRAME ""
+    {
+        0x2000
+        FM 0x1000    0    0
+    }
+
+    FRAME ""
+    {
+        0x2001
+        FM 0x1001   -2   -1
+        FM 0x1002    7   -2
+        FM 0x1003   17   -3
+        FM 0x1004   16   11
+        FM 0x1005    8   14
+        FM 0x1006   -3   12
+        FM 0x1007    0    5
+    }
+
+    FRAME ""
+    {
+        0x2002
+        FM 0x1001   -4   -3
+        FM 0x1002    7   -3
+        FM 0x1003   18   -4
+        FM 0x1004   17   12
+        FM 0x1005    8   15
+        FM 0x1006   -4   12
+        FM 0x1008    9   18
+        FM 0x1007   -1    9
+    }
+
+    FRAME ""
+    {
+        0x2003
+        FM 0x1001   -5   -2
+        FM 0x1002    7   -2
+        FM 0x1003   19   -3
+        FM 0x1006   -4   13
+        FM 0x1008   10   19
+        FM 0x1008   19   16
+        FM 0x1008   20   19
+        FM 0x1008    1   14
+        FM 0x1008   -2   18
+    }
+
+    FRAME ""
+    {
+        0x2004
+        FM 0x1001   -6    2
+        FM 0x1002    7    3
+        FM 0x1003   19    2
+        FM 0x1008   -6    3
+        FM 0x1008    8    5 +FLIP_X
+        FM 0x1008   22    3 +FLIP_X
+        FM 0x1008   23   20 +FLIP_X +FLIP_Y
+        FM 0x1008   -1   19 +FLIP_Y
+        FM 0x1008   -6   20 +FLIP_Y
+        FM 0x1008   -5   16
+    }
+
+    FRAME ""
+    {
+        0x2005
+        FM 0x1002    7    9
+        FM 0x1008    8   11 +FLIP_X
+        FM 0x1008   24   21 +FLIP_X +FLIP_Y
+        FM 0x1008   -7   21 +FLIP_Y
+        FM 0x1008   -2   13 +FLIP_Y
+        FM 0x1008    9   13 +FLIP_X
+        FM 0x1008   20   23 +FLIP_X +FLIP_Y
+        FM 0x1001   -6    6
+        FM 0x1008   -3    5
+        FM 0x1008   -6    7
+        FM 0x1003   19    6
+        FM 0x1008   22    7 +FLIP_X
+        FM 0x1008   24   10 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2006
+        FM 0x1008   -4   12
+        FM 0x1008    9   15 +FLIP_X
+        FM 0x1008   22   23 +FLIP_X +FLIP_Y
+        FM 0x1008   21   14 +FLIP_X
+        FM 0x1008   -3   15
+    }
+
+    ANIM ""
+    {
+        0x3000
+        AF 0x2000  1    0    0
+        AF 0x2001  1    0    0
+        AF 0x2002  1    0    0
+        AF 0x2003  1    0    0
+        AF 0x2004  1    0    0
+        AF 0x2005  1    0    0
+        AF 0x2006  1    0    0
+    }
+
+    SPRITE_END
+}

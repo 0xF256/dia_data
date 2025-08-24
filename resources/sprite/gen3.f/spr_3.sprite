@@ -1,0 +1,59 @@
+{
+    VERSION 0001
+
+    IMAGE 0x0000 "spr_3.png" TRANSP 0x00FF00FF
+
+    MODULES
+    {
+        MD 0x1000 MD_IMAGE 0    0    0   24   13
+        MD 0x1001 MD_IMAGE 0    0   23   24   10
+        MD 0x1002 MD_IMAGE 0    0   13   26   10
+        MD 0x1003 MD_IMAGE 0    0   33    7    4
+    }
+
+    FRAME ""
+    {
+        0x2000
+        FM 0x1000    2   10
+        FM 0x1001    2    1
+    }
+
+    FRAME ""
+    {
+        0x2001
+        FM 0x1000    2   10
+        FM 0x1001    2    0
+    }
+
+    FRAME ""
+    {
+        0x2002
+        FM 0x1003   -4   10
+        FM 0x1002   -5    0
+        FM 0x1000    2   10
+    }
+
+    FRAME ""
+    {
+        0x2003
+        FM 0x1003   -4   11
+        FM 0x1002   -5    1
+        FM 0x1000    2   10
+    }
+
+    FRAME ""
+    {
+        0x2004
+    }
+
+    ANIM ""
+    {
+        0x3000
+        AF 0x2000  1    0    0
+        AF 0x2001  8    0    0
+        AF 0x2002  5    0    0
+        AF 0x2003  1    0    0
+    }
+
+    SPRITE_END
+}

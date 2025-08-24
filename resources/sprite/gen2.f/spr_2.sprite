@@ -1,0 +1,51 @@
+{
+    VERSION 0001
+
+    IMAGE 0x0000 "spr_2.png" TRANSP 0x00FF00FF
+
+    MODULES
+    {
+        MD 0x1000 MD_IMAGE 0    0    0   22   14
+        MD 0x1001 MD_IMAGE 0    0   23   22    9
+        MD 0x1002 MD_IMAGE 0    0   14   26    9
+        MD 0x1003 MD_IMAGE 0    0   32    8    3
+    }
+
+    FRAME ""
+    {
+        0x2000
+        FM 0x1000    2   10
+        FM 0x1001    2    2
+    }
+
+    FRAME ""
+    {
+        0x2001
+        FM 0x1003   24   10
+        FM 0x1002    6    1
+        FM 0x1000    2   10
+    }
+
+    FRAME ""
+    {
+        0x2002
+        FM 0x1003   24   11
+        FM 0x1002    6    2
+        FM 0x1000    2   10
+    }
+
+    FRAME ""
+    {
+        0x2003
+    }
+
+    ANIM ""
+    {
+        0x3000
+        AF 0x2000  1    0    0
+        AF 0x2001  1    0    0
+        AF 0x2002  1    0    0
+    }
+
+    SPRITE_END
+}

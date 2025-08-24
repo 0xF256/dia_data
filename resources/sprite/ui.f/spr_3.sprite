@@ -1,0 +1,46 @@
+{
+    VERSION 0001
+
+    IMAGE 0x0000 "spr_3.png" TRANSP 0x00FF00FF
+
+    MODULES
+    {
+        MD 0x1000 MD_IMAGE 0    0    0   16   12
+        MD 0x1001 MD_IMAGE 0   16    0   11   12
+        MD 0x1002 MD_IMAGE 0   27    0   28   11
+        MD 0x1003 MD_IMAGE 0   55    0   11   10
+        MD 0x1004 MD_IMAGE 0    0   12  240    1
+    }
+
+    FRAME ""
+    {
+        0x2000
+        FM 0x1000    0   -1
+    }
+
+    FRAME ""
+    {
+        0x2001
+        FM 0x1002    0   -5
+    }
+
+    FRAME ""
+    {
+        0x2002
+        FM 0x1003   -5   -4
+    }
+
+    FRAME ""
+    {
+        0x2003
+        FM 0x1001    1   -1
+    }
+
+    FRAME ""
+    {
+        0x2004
+        FM 0x1004    0    0
+    }
+
+    SPRITE_END
+}

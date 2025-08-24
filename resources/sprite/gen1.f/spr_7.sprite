@@ -1,0 +1,243 @@
+{
+    VERSION 0001
+
+    IMAGE 0x0000 "spr_7.png" TRANSP 0x00FF00FF
+    PALETTE 0 "IMAGE"
+    PALETTE 1 "spr_7_pal1.act"
+
+    MODULES
+    {
+        MD 0x1000 MD_IMAGE 0    0    0   15   16
+        MD 0x1001 MD_IMAGE 0   33   16   12   12
+        MD 0x1002 MD_IMAGE 0   30    0   15   14
+        MD 0x1003 MD_IMAGE 0   19   16   14   12
+        MD 0x1004 MD_IMAGE 0   15    0   15   15
+        MD 0x1005 MD_IMAGE 0    0   16   14   14
+        MD 0x1006 MD_IMAGE 0    8   30   11   11
+        MD 0x1007 MD_IMAGE 0   14   16    5   13
+        MD 0x1008 MD_IMAGE 0   39   30    4    2
+        MD 0x1009 MD_IMAGE 0   19   30    8    6
+        MD 0x100a MD_IMAGE 0   27   30    7    6
+        MD 0x100b MD_IMAGE 0    0   30    8   12
+        MD 0x100c MD_IMAGE 0   34   30    5    6
+    }
+
+    FRAME ""
+    {
+        0x2000
+        FM 0x1000   -3   10
+        FM 0x1001    0   -2
+        FM 0x1001   12   -2 +FLIP_X
+        FM 0x1000   12   10 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2001
+        FM 0x1000   -3   10
+        FM 0x1001    0   -2
+        FM 0x1001   12   -2 +FLIP_X
+        FM 0x1000   12   10 +FLIP_X
+        FM 0x100b    4    4
+        FM 0x100b   12    4 +FLIP_X
+        FM 0x100c    7   16
+        FM 0x100c   12   16 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2002
+        FM 0x1002   -3   11
+        FM 0x1003   -2   -1
+        FM 0x1004   12   12 +FLIP_X
+        FM 0x1005   12   -2 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2003
+        FM 0x1002   -3   11
+        FM 0x1003   -2   -1
+        FM 0x1004   12   12 +FLIP_X
+        FM 0x1005   12   -2 +FLIP_X
+        FM 0x100b    4    4
+        FM 0x100b   12    4 +FLIP_X
+        FM 0x100c    7   16
+        FM 0x100c   12   16 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2004
+        FM 0x1002   12   11 +FLIP_X
+        FM 0x1003   12   -1 +FLIP_X
+        FM 0x1004   -3   12
+        FM 0x1005   -2   -2
+    }
+
+    FRAME ""
+    {
+        0x2005
+        FM 0x1002   12   11 +FLIP_X
+        FM 0x1003   12   -1 +FLIP_X
+        FM 0x1004   -3   12
+        FM 0x1005   -2   -2
+        FM 0x100b    4    4
+        FM 0x100b   12    4 +FLIP_X
+        FM 0x100c    7   16
+        FM 0x100c   12   16 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2006
+        FM 0x1007   24   10 +FLIP_X
+        FM 0x1006   13   11 +FLIP_X
+        FM 0x1006    2   11
+        FM 0x1009   17    6 +FLIP_X
+        FM 0x100a   20    5
+        FM 0x1007   -3   11
+        FM 0x1008    9   22
+        FM 0x1008   13   22 +FLIP_X
+        FM 0x1009    1    5
+        FM 0x100a    1    5
+    }
+
+    FRAME ""
+    {
+        0x2007
+        FM 0x1006    2   11
+        FM 0x1006   13   11 +FLIP_X
+        FM 0x100a   -5    2
+        FM 0x1008    9   22
+        FM 0x1008   13   22 +FLIP_X
+        FM 0x1007   -3   12
+        FM 0x1007   24   11 +FLIP_X
+        FM 0x1009    1    6
+        FM 0x1009   17    5 +FLIP_X
+        FM 0x100a   14    6
+    }
+
+    FRAME ""
+    {
+        0x2008
+        FM 0x100a    1   -1
+        FM 0x1006    2   11
+        FM 0x1006   13   11 +FLIP_X
+        FM 0x100a    9    6
+        FM 0x1008    9   22
+        FM 0x1008   13   22 +FLIP_X
+        FM 0x1007   -3   11
+        FM 0x1007   24   10 +FLIP_X
+        FM 0x1009    2    5
+        FM 0x1009   17    5 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2009
+        FM 0x100a    9   -2
+        FM 0x1006    2   11
+        FM 0x1006   13   11 +FLIP_X
+        FM 0x1008    9   22
+        FM 0x1008   13   22 +FLIP_X
+        FM 0x1007   -3   11
+        FM 0x1007   24   10 +FLIP_X
+        FM 0x1009    1    5
+        FM 0x1009   17    5 +FLIP_X
+        FM 0x100a    0    5
+    }
+
+    FRAME ""
+    {
+        0x200a
+        FM 0x100a   17   -1
+        FM 0x1006    2   11
+        FM 0x1006   13   11 +FLIP_X
+        FM 0x100a   -5    2
+        FM 0x1007   -3   11
+        FM 0x1007   24   11 +FLIP_X
+        FM 0x1009    1    5
+        FM 0x1009   17    5 +FLIP_X
+        FM 0x1008    9   22
+        FM 0x1008   13   22 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x200b
+        FM 0x100a    2    0
+        FM 0x100a   22    2
+        FM 0x1006    2   11
+        FM 0x1006   13   11 +FLIP_X
+        FM 0x1009    1    5
+        FM 0x1009   17    5 +FLIP_X
+        FM 0x1007   -3   11
+        FM 0x1007   24   11 +FLIP_X
+        FM 0x1008    9   22
+        FM 0x1008   13   22 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x200c
+        FM 0x100a    9    0
+        FM 0x1006    2   11
+        FM 0x1006   13   11 +FLIP_X
+        FM 0x1009    1    5
+        FM 0x1009   17    5 +FLIP_X
+        FM 0x1007   -3   11
+        FM 0x1007   24   11 +FLIP_X
+        FM 0x1008    9   22
+        FM 0x1008   13   22 +FLIP_X
+        FM 0x100a   15    4
+    }
+
+    FRAME ""
+    {
+        0x200d
+        FM 0x100a   19    1
+        FM 0x1006    2   11
+        FM 0x1006   13   11 +FLIP_X
+        FM 0x1009    1    5
+        FM 0x1009   17    5 +FLIP_X
+        FM 0x1007   -3   11
+        FM 0x1007   24   11 +FLIP_X
+        FM 0x1008    9   22
+        FM 0x1008   13   22 +FLIP_X
+        FM 0x100a    7    5
+    }
+
+    ANIM ""
+    {
+        0x3000
+        AF 0x2000  1    0    0
+        AF 0x2002  1    0    0
+        AF 0x2000  1    0    0
+        AF 0x2004  1    0    0
+    }
+
+    ANIM ""
+    {
+        0x3001
+        AF 0x2001  1    0    0
+        AF 0x2003  1    0    0
+        AF 0x2001  1    0    0
+        AF 0x2005  1    0    0
+    }
+
+    ANIM ""
+    {
+        0x3002
+        AF 0x2006  2    0    0
+        AF 0x2007  2    0    0
+        AF 0x2008  2    0    0
+        AF 0x2009  2    0    0
+        AF 0x200a  2    0    0
+        AF 0x200b  2    0    0
+        AF 0x200c  2    0    0
+        AF 0x200d  2    0    0
+    }
+
+    SPRITE_END
+}

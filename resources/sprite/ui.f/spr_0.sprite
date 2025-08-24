@@ -1,0 +1,157 @@
+{
+    VERSION 0001
+
+    IMAGE 0x0000 "spr_0.png" TRANSP 0x00FF00FF
+
+    MODULES
+    {
+        MD 0x1000 MD_IMAGE 0   11   50   12   17
+        MD 0x1001 MD_IMAGE 0    0   72    6    9
+        MD 0x1002 MD_IMAGE 0   74    0    6   16
+        MD 0x1003 MD_IMAGE 0   12   72   17    8
+        MD 0x1004 MD_IMAGE 0   67   50   11    9
+        MD 0x1005 MD_IMAGE 0   46   72   16    8
+        MD 0x1006 MD_IMAGE 0   39    0   24   27
+        MD 0x1007 MD_IMAGE 0    0   28   53   22
+        MD 0x1008 MD_IMAGE 0   27    0   12   28
+        MD 0x1009 MD_IMAGE 0   63   22   11    4
+        MD 0x100a MD_IMAGE 0    0    0   27   28
+        MD 0x100b MD_IMAGE 0   23   50   18   16
+        MD 0x100c MD_IMAGE 0    6   72    6    9
+        MD 0x100d MD_IMAGE 0   62   72   16    6
+        MD 0x100e MD_IMAGE 0   24   81   14    6
+        MD 0x100f MD_IMAGE 0   63    0   11   22
+        MD 0x1010 MD_IMAGE 0   53   28   23   22
+        MD 0x1011 MD_IMAGE 0    0   50   11   22
+        MD 0x1012 MD_IMAGE 0   41   50   26   12
+        MD 0x1013 MD_IMAGE 0    0   81   24    6
+        MD 0x1014 MD_IMAGE 0   29   72   17    8
+    }
+
+    FRAME ""
+    {
+        0x2000
+        FM 0x1001    1    1
+        FM 0x1000  -11   -1
+        FM 0x100f    1    2
+        FM 0x1002  -17    0
+        FM 0x1003  -20   16
+        FM 0x100f   11    2 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2001
+        FM 0x1001    1    0
+        FM 0x1004  -17   15
+        FM 0x1010    1    2
+        FM 0x1002  -17   -1
+        FM 0x1000  -11   -2
+    }
+
+    FRAME ""
+    {
+        0x2002
+        FM 0x1005  -20   16
+        FM 0x1011    1    2
+        FM 0x1000  -11   -1
+        FM 0x1002  -17    0
+        FM 0x1001    1    1
+        FM 0x1011   12    2 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2003
+        FM 0x1004  -16   15
+        FM 0x1010    1    2 +FLIP_X
+        FM 0x1000  -11   -2
+        FM 0x1001    1    0
+        FM 0x1002  -17   -1
+    }
+
+    FRAME ""
+    {
+        0x2004
+        FM 0x100b  -23   -4
+        FM 0x100c   -6   -2
+        FM 0x100d  -19   12
+        FM 0x100e  -20   18
+    }
+
+    FRAME ""
+    {
+        0x2005
+        FM 0x1006  -88    5
+        FM 0x100a   20   -1
+        FM 0x1008  -11    0
+        FM 0x1007  -64    5
+        FM 0x1009  -76    1
+    }
+
+    FRAME ""
+    {
+        0x2006
+        FM 0x100f    0    0
+        FM 0x100f   10    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2007
+        FM 0x1010   -1    0
+    }
+
+    FRAME ""
+    {
+        0x2008
+        FM 0x1011    0    0
+        FM 0x1011   11    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2009
+        FM 0x1010    0    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x200a
+        FM 0x1012  -22   -2
+        FM 0x1013  -24   10
+        FM 0x1014  -20   16
+    }
+
+    FRAME ""
+    {
+        0x200b
+        FM 0x1006  -66    5
+        FM 0x100a   42   -1
+        FM 0x1008   11    0
+        FM 0x1007  -42    5
+        FM 0x1009  -54    1
+        FM 0x100f   23    5
+        FM 0x100f   33    5 +FLIP_X
+    }
+
+    ANIM ""
+    {
+        0x3000
+        AF 0x2000  2    0    0
+        AF 0x2001  2    0    0
+        AF 0x2002  2    0    0
+        AF 0x2003  2    0    0
+    }
+
+    ANIM ""
+    {
+        0x3001
+        AF 0x2006  1    0    0
+        AF 0x2007  1    0    0
+        AF 0x2008  1    0    0
+        AF 0x2009  1    0    0
+    }
+
+    SPRITE_END
+}

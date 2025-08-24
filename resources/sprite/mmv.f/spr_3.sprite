@@ -1,0 +1,25 @@
+{
+    VERSION 0001
+
+    IMAGE 0x0000 "spr_3.png" TRANSP 0x00FF00FF
+
+    MODULES
+    {
+        MD 0x1000 MD_IMAGE 0    0    0   28   27
+    }
+
+    FRAME ""
+    {
+        0x2000
+        FM 0x1000    0    0
+    }
+
+    ANIM ""
+    {
+        0x3000
+        AF 0x2000  2    0    0
+        AF 0x20ff  2    0    0
+    }
+
+    SPRITE_END
+}

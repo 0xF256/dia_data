@@ -1,0 +1,149 @@
+{
+    VERSION 0001
+
+    IMAGE 0x0000 "spr_0.png" TRANSP 0x00FF00FF
+
+    MODULES
+    {
+        MD 0x1000 MD_IMAGE 0   15   24   19   13
+        MD 0x1001 MD_IMAGE 0   39   39   15   10
+        MD 0x1002 MD_IMAGE 0   34   24   15   13
+        MD 0x1003 MD_IMAGE 0   49   24   15   13
+        MD 0x1004 MD_IMAGE 0    0   39   15   13
+        MD 0x1005 MD_IMAGE 0   64   39    6    6
+        MD 0x1006 MD_IMAGE 0   18   52    6    6
+        MD 0x1007 MD_IMAGE 0   24   19    5    5
+        MD 0x1008 MD_IMAGE 0   54   39    5    9
+        MD 0x1009 MD_IMAGE 0   29   19    5    5
+        MD 0x100a MD_IMAGE 0   59   39    5    9
+        MD 0x100b MD_IMAGE 0   52    0   15   15
+        MD 0x100c MD_IMAGE 0    0   24   15   15
+        MD 0x100d MD_IMAGE 0   24    0   28   19
+        MD 0x100e MD_IMAGE 0   64   24    7    9
+        MD 0x100f MD_IMAGE 0    0    0   24   24
+        MD 0x1010 MD_IMAGE 0    0   52    9    8
+        MD 0x1011 MD_IMAGE 0    9   52    9    8
+        MD 0x1012 MD_IMAGE 0   15   39   13   12
+        MD 0x1013 MD_IMAGE 0   28   39   11   11
+    }
+
+    FRAME ""
+    {
+        0x2000
+        FM 0x1002    0   -1
+    }
+
+    FRAME ""
+    {
+        0x2001
+        FM 0x1004    0   -1
+    }
+
+    FRAME ""
+    {
+        0x2002
+        FM 0x1005   -2   -3
+    }
+
+    FRAME ""
+    {
+        0x2003
+        FM 0x1006   -2   -3
+    }
+
+    FRAME ""
+    {
+        0x2004
+        FM 0x1007   -2   -2
+    }
+
+    FRAME ""
+    {
+        0x2005
+        FM 0x1008    0    0
+        FM 0x1008    4    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2006
+        FM 0x1000   -9  -21
+        FM 0x1001   -7  -10
+    }
+
+    FRAME ""
+    {
+        0x2007
+        FM 0x1000   -9  -21
+        FM 0x1001   -7  -10
+    }
+
+    FRAME ""
+    {
+        0x2008
+        FM 0x1009   -2   -2
+    }
+
+    FRAME ""
+    {
+        0x2009
+        FM 0x100a    0    0
+        FM 0x100a    4    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x200a
+        FM 0x100b    0    0
+    }
+
+    FRAME ""
+    {
+        0x200b
+        FM 0x100c    0    0
+    }
+
+    FRAME ""
+    {
+        0x200c
+        FM 0x100d    0    0
+    }
+
+    FRAME ""
+    {
+        0x200d
+        FM 0x1003    0   -1
+    }
+
+    FRAME ""
+    {
+        0x200e
+        FM 0x100e    0    0
+    }
+
+    FRAME ""
+    {
+        0x200f
+        FM 0x100e    0    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2010
+        FM 0x100f    0    0
+    }
+
+    FRAME ""
+    {
+        0x2011
+        FM 0x1012    1    0
+    }
+
+    FRAME ""
+    {
+        0x2012
+        FM 0x1013   -1   -1
+    }
+
+    SPRITE_END
+}

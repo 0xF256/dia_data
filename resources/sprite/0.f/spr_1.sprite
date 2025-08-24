@@ -1,0 +1,133 @@
+{
+    VERSION 0001
+
+    IMAGE 0x0000 "spr_1.png" TRANSP 0x00FF00FF
+
+    MODULES
+    {
+        MD 0x1000 MD_IMAGE 0    0    0   24   24
+        MD 0x1001 MD_IMAGE 0   24    0   23   12
+        MD 0x1002 MD_IMAGE 0    0   34   23    7
+        MD 0x1003 MD_IMAGE 0    4   24   23    8
+        MD 0x1004 MD_IMAGE 0   27   29    8    3
+        MD 0x1005 MD_IMAGE 0   32   34    6    4
+        MD 0x1006 MD_IMAGE 0   23   34    9    5
+        MD 0x1007 MD_IMAGE 0   41   24    4    5
+        MD 0x1008 MD_IMAGE 0    0   24    4   10
+        MD 0x1009 MD_IMAGE 0   24   12   11   11
+        MD 0x100a MD_IMAGE 0   35   12   11   11
+        MD 0x100b MD_IMAGE 0   27   24   14    5
+        MD 0x100c MD_IMAGE 0   35   29    3    2
+    }
+
+    FRAME ""
+    {
+        0x2000
+        FM 0x1000    0    0
+    }
+
+    FRAME ""
+    {
+        0x2001
+        FM 0x1001    0   12
+        FM 0x1009    8    4
+        FM 0x100a   -1    6
+        FM 0x1008   20    4
+        FM 0x1007   -1    3
+        FM 0x1006   15    0
+        FM 0x1005    3    3
+        FM 0x1004    2   -1
+    }
+
+    FRAME ""
+    {
+        0x2002
+        FM 0x1001    0   12
+        FM 0x1009    7    3
+        FM 0x100a   -3    6
+        FM 0x1008   21    4
+        FM 0x1007   -2    2
+        FM 0x1006   16   -1
+        FM 0x1005    2    2
+        FM 0x1004    1   -3
+    }
+
+    FRAME ""
+    {
+        0x2003
+        FM 0x1001    0   12
+        FM 0x1009    6    3
+        FM 0x100a   -4    6
+        FM 0x1008   23    4
+        FM 0x1007   -3    2
+        FM 0x1006   17   -2
+        FM 0x1005    1    2
+        FM 0x1004    0   -3
+    }
+
+    FRAME ""
+    {
+        0x2004
+        FM 0x100a   -4    8
+        FM 0x1008   23    7
+        FM 0x1007   -4    4
+        FM 0x1006   18    0
+        FM 0x1005    1    3
+        FM 0x1004    0   -2
+        FM 0x1002    0   17
+        FM 0x100b    7    9
+    }
+
+    FRAME ""
+    {
+        0x2005
+        FM 0x1008   -3   11 +FLIP_X
+        FM 0x1007   -5    6
+        FM 0x1006   21   12
+        FM 0x1005    1    5
+        FM 0x1005   -1    0 +FLIP_X
+        FM 0x1004   19    3 +FLIP_X
+        FM 0x1002    0   17
+        FM 0x1009   11    5 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2006
+        FM 0x1008   -3   15 +FLIP_X
+        FM 0x1007   -6    8
+        FM 0x1007   22    5 +FLIP_X
+        FM 0x1005    1    7
+        FM 0x1005   22   15
+        FM 0x1005   -3    2 +FLIP_X
+        FM 0x100b    7   13
+        FM 0x1003    0   16
+    }
+
+    FRAME ""
+    {
+        0x2007
+        FM 0x1007   -2   19
+        FM 0x1007   -3    8
+        FM 0x1007   21   18 +FLIP_X
+        FM 0x1005    2    9
+        FM 0x100b    5   16
+        FM 0x1003    0   16
+        FM 0x100c   24    9
+    }
+
+    ANIM ""
+    {
+        0x3000
+        AF 0x2000  1    0    0
+        AF 0x2001  1    0    0
+        AF 0x2002  1    0    0
+        AF 0x2003  1    0    0
+        AF 0x2004  1    0    0
+        AF 0x2005  1    0    0
+        AF 0x2006  1    0    0
+        AF 0x2007  1    0    0
+    }
+
+    SPRITE_END
+}

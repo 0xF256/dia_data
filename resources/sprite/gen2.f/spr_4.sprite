@@ -1,0 +1,53 @@
+{
+    VERSION 0001
+
+    IMAGE 0x0000 "spr_4.png" TRANSP 0x00FF00FF
+    PALETTE 0 "IMAGE"
+    PALETTE 1 "spr_4_pal1.act"
+
+    MODULES
+    {
+        MD 0x1000 MD_IMAGE 0    0    0   12   24
+        MD 0x1001 MD_IMAGE 0   12    0   12   24
+        MD 0x1002 MD_IMAGE 0   24    0   12   24
+        MD 0x1003 MD_IMAGE 0    0   24   12   24
+        MD 0x1004 MD_IMAGE 0   12   24   12   24
+    }
+
+    FRAME ""
+    {
+        0x2000
+        FM 0x1000    0    0
+        FM 0x1000   12    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2001
+        FM 0x1001    0    0
+        FM 0x1001   12    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2002
+        FM 0x1002    0    0
+        FM 0x1002   12    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2003
+        FM 0x1003    0    0
+        FM 0x1003   12    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2004
+        FM 0x1004    0    0
+        FM 0x1004   12    0 +FLIP_X
+    }
+
+    SPRITE_END
+}

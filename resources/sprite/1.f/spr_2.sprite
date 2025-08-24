@@ -1,0 +1,481 @@
+{
+    VERSION 0001
+
+    IMAGE 0x0000 "spr_2.png" TRANSP 0x00FF00FF
+
+    MODULES
+    {
+        MD 0x1000 MD_IMAGE 0    0    0   24   24
+        MD 0x1001 MD_IMAGE 0   24    0   24   24
+        MD 0x1002 MD_IMAGE 0   48    0   24   24
+        MD 0x1003 MD_IMAGE 0   72    0   24   24
+        MD 0x1004 MD_IMAGE 0   96    0   24   24
+        MD 0x1005 MD_IMAGE 0    0  120   24   14
+        MD 0x1006 MD_IMAGE 0   21   96   22   20
+        MD 0x1007 MD_IMAGE 0   55   96   24   16
+        MD 0x1008 MD_IMAGE 0    0   24   24   24
+        MD 0x1009 MD_IMAGE 0   24   24   24   24
+        MD 0x100a MD_IMAGE 0   48   24   24   24
+        MD 0x100b MD_IMAGE 0   85   72   14   24
+        MD 0x100c MD_IMAGE 0   85  120   24   10
+        MD 0x100d MD_IMAGE 0   70   72   15   24
+        MD 0x100e MD_IMAGE 0   72   24   24   24
+        MD 0x100f MD_IMAGE 0   48  120   13   13
+        MD 0x1010 MD_IMAGE 0   79   96   24   15
+        MD 0x1011 MD_IMAGE 0   61  120   24   12
+        MD 0x1012 MD_IMAGE 0  103   96   13   14
+        MD 0x1013 MD_IMAGE 0   48  134   24    9
+        MD 0x1014 MD_IMAGE 0   48   72   22   24
+        MD 0x1015 MD_IMAGE 0    0  144   24    5
+        MD 0x1016 MD_IMAGE 0   24  120   24   14
+        MD 0x1017 MD_IMAGE 0   96   24   24   24
+        MD 0x1018 MD_IMAGE 0    0   48   24   24
+        MD 0x1019 MD_IMAGE 0   24   48   24   24
+        MD 0x101a MD_IMAGE 0   48   48   24   24
+        MD 0x101b MD_IMAGE 0   72   48   24   24
+        MD 0x101c MD_IMAGE 0   72  134   24    9
+        MD 0x101d MD_IMAGE 0   96   48   24   24
+        MD 0x101e MD_IMAGE 0   11   96   10   24
+        MD 0x101f MD_IMAGE 0    0   72   24   24
+        MD 0x1020 MD_IMAGE 0   24   72   24   24
+        MD 0x1021 MD_IMAGE 0    0  134   24   10
+        MD 0x1022 MD_IMAGE 0   99   72   12   24
+        MD 0x1023 MD_IMAGE 0    0   96   11   24
+        MD 0x1024 MD_IMAGE 0   43   96   12   18
+        MD 0x1025 MD_IMAGE 0   96  134   13    6
+        MD 0x1026 MD_IMAGE 0   24  134   24   10
+    }
+
+    FRAME ""
+    {
+        0x2000
+        FM 0x1000    0    0
+    }
+
+    FRAME ""
+    {
+        0x2001
+        FM 0x1000    0    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2002
+        FM 0x1001    0    0
+    }
+
+    FRAME ""
+    {
+        0x2003
+        FM 0x1002    0    0
+    }
+
+    FRAME ""
+    {
+        0x2004
+        FM 0x1001    0    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2005
+        FM 0x1003    0    0
+    }
+
+    FRAME ""
+    {
+        0x2006
+        FM 0x1004    0    0
+    }
+
+    FRAME ""
+    {
+        0x2007
+        FM 0x1000    0    0 +FLIP_Y
+    }
+
+    FRAME ""
+    {
+        0x2008
+        FM 0x1005    0    0
+        FM 0x1026    0   14
+    }
+
+    FRAME ""
+    {
+        0x2009
+        FM 0x1005    0   10 +FLIP_Y
+        FM 0x1026    0    0
+    }
+
+    FRAME ""
+    {
+        0x200a
+        FM 0x1006    2    0
+    }
+
+    FRAME ""
+    {
+        0x200b
+        FM 0x1003    0    0
+        FM 0x1012    0    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x200c
+        FM 0x1004    0    0 +FLIP_X +FLIP_Y
+    }
+
+    FRAME ""
+    {
+        0x200d
+        FM 0x1002    0    0
+    }
+
+    FRAME ""
+    {
+        0x200e
+        FM 0x1003    0    0
+        FM 0x1007    0    8
+    }
+
+    FRAME ""
+    {
+        0x200f
+        FM 0x1000    0    0 +FLIP_X +FLIP_Y
+    }
+
+    FRAME ""
+    {
+        0x2010
+        FM 0x1008    0    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2011
+        FM 0x1008    0    0
+    }
+
+    FRAME ""
+    {
+        0x2012
+        FM 0x1009    0    0
+    }
+
+    FRAME ""
+    {
+        0x2013
+        FM 0x1009    0    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2014
+        FM 0x100a    0    0
+    }
+
+    FRAME ""
+    {
+        0x2015
+        FM 0x100a    0    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2016
+        FM 0x1000    0    0
+    }
+
+    FRAME ""
+    {
+        0x2017
+        FM 0x1003    0    0
+        FM 0x100b    0    0
+    }
+
+    FRAME ""
+    {
+        0x2018
+        FM 0x1003    0    0
+        FM 0x100b   10    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2019
+        FM 0x100c    0   14
+        FM 0x1011    0    0
+    }
+
+    FRAME ""
+    {
+        0x201a
+        FM 0x1003    0    0
+        FM 0x100d    0    0
+    }
+
+    FRAME ""
+    {
+        0x201b
+        FM 0x100e    0    0
+    }
+
+    FRAME ""
+    {
+        0x201c
+        FM 0x100f    0   11
+        FM 0x100f   11    0
+    }
+
+    FRAME ""
+    {
+        0x201d
+        FM 0x1003    0    0
+        FM 0x100d    9    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x201e
+        FM 0x1003    0    0
+        FM 0x1007    0    0 +FLIP_Y
+    }
+
+    FRAME ""
+    {
+        0x201f
+        FM 0x1003    0    0
+        FM 0x1010    0    0
+    }
+
+    FRAME ""
+    {
+        0x2020
+        FM 0x1011    0    0
+        FM 0x1013    0   15
+    }
+
+    FRAME ""
+    {
+        0x2021
+        FM 0x1003    0    0
+        FM 0x1010    0    9 +FLIP_Y
+    }
+
+    FRAME ""
+    {
+        0x2022
+        FM 0x1003    0    0 +FLIP_X
+        FM 0x1012   11    0
+    }
+
+    FRAME ""
+    {
+        0x2023
+        FM 0x1003    0    0
+        FM 0x1012    0   10 +FLIP_X +FLIP_Y
+    }
+
+    FRAME ""
+    {
+        0x2024
+        FM 0x1003    0    0
+        FM 0x1012   11   10 +FLIP_Y
+    }
+
+    FRAME ""
+    {
+        0x2025
+        FM 0x1006    0    4 +FLIP_X +FLIP_Y
+    }
+
+    FRAME ""
+    {
+        0x2026
+        FM 0x1006    0    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2027
+        FM 0x100f    0    0 +FLIP_X
+        FM 0x100f   11   11 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2028
+        FM 0x1006    2    4 +FLIP_Y
+    }
+
+    FRAME ""
+    {
+        0x2029
+        FM 0x1014    2    0
+    }
+
+    FRAME ""
+    {
+        0x202a
+        FM 0x1015    0    2
+        FM 0x1016    0   10
+    }
+
+    FRAME ""
+    {
+        0x202b
+        FM 0x1014    0    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x202c
+        FM 0x1017    0    0
+    }
+
+    FRAME ""
+    {
+        0x202d
+        FM 0x1017    0    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x202e
+        FM 0x1018    0    0
+    }
+
+    FRAME ""
+    {
+        0x202f
+        FM 0x1018    0    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2030
+        FM 0x1019    0    0
+    }
+
+    FRAME ""
+    {
+        0x2031
+        FM 0x1019    0    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2032
+        FM 0x101a    0    0
+    }
+
+    FRAME ""
+    {
+        0x2033
+        FM 0x101b    0    0
+    }
+
+    FRAME ""
+    {
+        0x2034
+        FM 0x1003    0    0
+        FM 0x101c    0    0
+    }
+
+    FRAME ""
+    {
+        0x2035
+        FM 0x101d    0    0
+    }
+
+    FRAME ""
+    {
+        0x2036
+        FM 0x100e    0    0
+        FM 0x101e    0    0
+    }
+
+    FRAME ""
+    {
+        0x2037
+        FM 0x101f    0    0
+    }
+
+    FRAME ""
+    {
+        0x2038
+        FM 0x1020    0    0
+    }
+
+    FRAME ""
+    {
+        0x2039
+        FM 0x1020    0    0
+        FM 0x1021    0   16
+    }
+
+    FRAME ""
+    {
+        0x203a
+        FM 0x1022    0    0
+        FM 0x1022   12    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x203b
+        FM 0x1023    1    0
+        FM 0x1023   12    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x203c
+        FM 0x1024   11    0 +FLIP_X
+        FM 0x1024    1    0
+        FM 0x1025    5   18
+    }
+
+    FRAME ""
+    {
+        0x203d
+        FM 0x1003    0    0
+        FM 0x1012   11    0
+        FM 0x1012    0    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x203e
+        FM 0x1003    0    0
+        FM 0x1012   11   10 +FLIP_Y
+        FM 0x1012   11    0
+    }
+
+    FRAME ""
+    {
+        0x203f
+        FM 0x1003    0    0
+        FM 0x1012    0   10 +FLIP_X +FLIP_Y
+        FM 0x1012   11   10 +FLIP_Y
+    }
+
+    FRAME ""
+    {
+        0x2040
+        FM 0x1003    0    0
+        FM 0x1012    0   10 +FLIP_X +FLIP_Y
+        FM 0x1012    0    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2041
+        FM 0x1005    0    0
+        FM 0x1005    0   10 +FLIP_Y
+    }
+
+    SPRITE_END
+}

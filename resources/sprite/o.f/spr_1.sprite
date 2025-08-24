@@ -1,0 +1,97 @@
+{
+    VERSION 0001
+
+    IMAGE 0x0000 "spr_1.png" TRANSP 0x00FF00FF
+
+    MODULES
+    {
+        MD 0x1000 MD_IMAGE 0    0   29   32   11
+        MD 0x1001 MD_IMAGE 0    0   56   28    4
+        MD 0x1002 MD_IMAGE 0   32   29   22   10
+        MD 0x1003 MD_IMAGE 0   40   49   21    4
+        MD 0x1004 MD_IMAGE 0    0   17   31   12
+        MD 0x1005 MD_IMAGE 0    0   40   23    9
+        MD 0x1006 MD_IMAGE 0   23   40   22    7
+        MD 0x1007 MD_IMAGE 0   13    0   26   16
+        MD 0x1008 MD_IMAGE 0   31   17   17   12
+        MD 0x1009 MD_IMAGE 0    0   49   20    7
+        MD 0x100a MD_IMAGE 0    0    0   13   17
+        MD 0x100b MD_IMAGE 0   56    0    5    7
+        MD 0x100c MD_IMAGE 0   48   17    5    6
+        MD 0x100d MD_IMAGE 0   28   56   14    4
+        MD 0x100e MD_IMAGE 0   20   49   20    5
+        MD 0x100f MD_IMAGE 0   48   23   14    5
+        MD 0x1010 MD_IMAGE 0   39    0   14   15
+        MD 0x1011 MD_IMAGE 0   53    0    3   10
+        MD 0x1012 MD_IMAGE 0   45   40   11    5
+    }
+
+    FRAME ""
+    {
+        0x2000
+        FM 0x1000   -5    9
+        FM 0x1001   -3    5
+        FM 0x1002    1   -5
+        FM 0x1003    1   20
+    }
+
+    FRAME ""
+    {
+        0x2001
+        FM 0x1004   -6    3
+        FM 0x1005   -2   15
+        FM 0x1006   -2   -4
+    }
+
+    FRAME ""
+    {
+        0x2002
+        FM 0x1007   -1   -4
+        FM 0x1008    4   12
+    }
+
+    FRAME ""
+    {
+        0x2003
+        FM 0x100a    5    7
+        FM 0x1009    1    0
+        FM 0x100b    0    8
+        FM 0x100c   18    7
+        FM 0x100d    4   -4
+    }
+
+    FRAME ""
+    {
+        0x2004
+        FM 0x1010    5    9
+        FM 0x1011    2   11
+        FM 0x1011   19   11 +FLIP_X
+        FM 0x100e    2    4
+        FM 0x100f    5   -1
+    }
+
+    FRAME ""
+    {
+        0x2005
+        FM 0x1010    5    9
+        FM 0x1011    2   11
+        FM 0x1011   19   11 +FLIP_X
+        FM 0x100e    2    4
+        FM 0x100f    5   -1
+        FM 0x1012    7    6
+    }
+
+    ANIM ""
+    {
+        0x3000
+        AF 0x2000  4    0    0
+        AF 0x2001  1    0    0
+        AF 0x2002  1    0    0
+        AF 0x2003  4    0    0
+        AF 0x2004  1    0    0
+        AF 0x2005  1    0    0
+        AF 0x2004  4    0    0
+    }
+
+    SPRITE_END
+}

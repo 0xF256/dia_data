@@ -1,0 +1,22 @@
+{
+    VERSION 0001
+
+    IMAGE 0x0000 "spr_8.png" TRANSP 0x00FF00FF
+
+    MODULES
+    {
+        MD 0x1000 MD_IMAGE 0    0    0   10   28
+        MD 0x1001 MD_IMAGE 0   10    0    4   13
+    }
+
+    FRAME ""
+    {
+        0x2000
+        FM 0x1000    2   -2
+        FM 0x1000   12   -2 +FLIP_X
+        FM 0x1001   -2    8
+        FM 0x1001   22    7 +FLIP_X
+    }
+
+    SPRITE_END
+}

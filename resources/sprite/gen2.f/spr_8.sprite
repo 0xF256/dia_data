@@ -1,0 +1,81 @@
+{
+    VERSION 0001
+
+    IMAGE 0x0000 "spr_8.png" TRANSP 0x00FF00FF
+    PALETTE 0 "IMAGE"
+    PALETTE 1 "spr_8_pal1.act"
+
+    MODULES
+    {
+        MD 0x1000 MD_IMAGE 0    0    0   12   24
+        MD 0x1001 MD_IMAGE 0   12    0   11   16
+        MD 0x1002 MD_IMAGE 0   34    0    3    7
+        MD 0x1003 MD_IMAGE 0   23    0   11   14
+        MD 0x1004 MD_IMAGE 0   28   16    3    5
+        MD 0x1005 MD_IMAGE 0    0   24   11   12
+        MD 0x1006 MD_IMAGE 0   34    7    3    7
+        MD 0x1007 MD_IMAGE 0   12   16   16    6
+    }
+
+    FRAME ""
+    {
+        0x2000
+        FM 0x1000    0    0
+        FM 0x1000   12    0 +FLIP_X
+    }
+
+    FRAME ""
+    {
+        0x2001
+        FM 0x1000    0    0
+        FM 0x1000   12    0 +FLIP_X
+        FM 0x1001    0    4
+        FM 0x1002   11    8
+    }
+
+    FRAME ""
+    {
+        0x2002
+        FM 0x1000    0    0
+        FM 0x1000   12    0 +FLIP_X
+        FM 0x1003    0    4
+        FM 0x1004   11    9
+    }
+
+    FRAME ""
+    {
+        0x2003
+        FM 0x1000    0    0
+        FM 0x1000   12    0 +FLIP_X
+        FM 0x1005    0    5
+        FM 0x1006   11    9
+    }
+
+    FRAME ""
+    {
+        0x2004
+        FM 0x1000    0    0
+        FM 0x1000   12    0 +FLIP_X
+        FM 0x1007   -1    9
+    }
+
+    FRAME ""
+    {
+        0x2005
+        FM 0x1000    0    0
+        FM 0x1000   12    0 +FLIP_X
+        FM 0x1005    0    6 +FLIP_Y
+        FM 0x1006   11    7 +FLIP_Y
+    }
+
+    FRAME ""
+    {
+        0x2006
+        FM 0x1000    0    0
+        FM 0x1000   12    0 +FLIP_X
+        FM 0x1003    0    5 +FLIP_Y
+        FM 0x1004   11    9 +FLIP_Y
+    }
+
+    SPRITE_END
+}
