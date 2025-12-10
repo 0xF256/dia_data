@@ -1,2 +1,2 @@
 Landscape version 118, 229
-Portrait version 78, 309
+Portrait version   78, 309

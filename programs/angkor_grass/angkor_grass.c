@@ -1,213 +1,169 @@
-#include <SDL2/SDL.h>
+/* MIT License
+ * 
+ * Copyright (c) 2025 SmithGoll
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
-#define STB_IMAGE_IMPLEMENTATION
-#define STBI_FAILURE_USERMSG
-#define STB_IMAGE_STATIC
-#define STBI_ONLY_PNG
-#include "stb_image.h"
-
+#include "chunk.h"
 #include "graphic.h"
+#include "sprite.h"
 
-tex_t *textures[14] = {};
-struct
-{
-    int count;
-    int offset;
-} pos_info[] = {
-    { 0x01, 0x00 },
-    { 0x08, 0x01 },
-    { 0x08, 0x09 },
-    { 0x08, 0x11 },
-    { 0x08, 0x19 },
-    { 0x08, 0x21 },
-    { 0x08, 0x29 },
-    { 0x07, 0x31 }
-};
-struct
-{
-    int index;
-    int x;
-    int y;
-    int transform;
-} pos[] = {
-    { 0, 0, 0, 0 },
-    { 1, 0, 12, 0 },
-    { 9, 8, 4, 0 },
-    { 10, -1, 6, 0 },
-    { 8, 20, 4, 0 },
-    { 7, -1, 3, 0 },
-    { 6, 15, 0, 0 },
-    { 5, 3, 3, 0 },
-    { 4, 2, -1, 0 },
-    { 1, 0, 12, 0 },
-    { 9, 7, 3, 0 },
-    { 10, -3, 6, 0 },
-    { 8, 21, 4, 0 },
-    { 7, -2, 2, 0 },
-    { 6, 16, -1, 0 },
-    { 5, 2, 2, 0 },
-    { 4, 1, -3, 0 },
-    { 1, 0, 12, 0 },
-    { 9, 6, 3, 0 },
-    { 10, -4, 6, 0 },
-    { 8, 23, 4, 0 },
-    { 7, -3, 2, 0 },
-    { 6, 17, -2, 0 },
-    { 5, 1, 2, 0 },
-    { 4, 0, -3, 0 },
-    { 10, -4, 8, 0 },
-    { 8, 23, 7, 0 },
-    { 7, -4, 4, 0 },
-    { 6, 18, 0, 0 },
-    { 5, 1, 3, 0 },
-    { 4, 0, -2, 0 },
-    { 2, 0, 17, 0 },
-    { 11, 7, 9, 0 },
-    { 8, -3, 11, 1 },
-    { 7, -5, 6, 0 },
-    { 6, 21, 12, 0 },
-    { 5, 1, 5, 0 },
-    { 5, -1, 0, 1 },
-    { 4, 19, 3, 1 },
-    { 2, 0, 17, 0 },
-    { 9, 11, 5, 1 },
-    { 8, -3, 15, 1 },
-    { 7, -6, 8, 0 },
-    { 7, 22, 5, 1 },
-    { 5, 1, 7, 0 },
-    { 5, 22, 15, 0 },
-    { 5, -3, 2, 1 },
-    { 11, 7, 13, 0 },
-    { 3, 0, 16, 0 },
-    { 7, -2, 19, 0 },
-    { 7, -3, 8, 0 },
-    { 7, 21, 18, 1 },
-    { 5, 2, 9, 0 },
-    { 11, 5, 16, 0 },
-    { 3, 0, 16, 0 },
-    { 12, 24, 9, 0 }
-};
+#ifdef __EMSCRIPTEN__
+#include <emscripten/emscripten.h>
+#endif
 
-void draw_background(graphic_t *graphic, tex_t *texture)
+#define FPS 8
+
+sprite_t* grass = NULL;
+sprite_t* bg_spr = NULL;
+
+int frames_count = 0;
+
+SDL_bool running = SDL_TRUE;
+
+void draw_background()
 {
-    for(int y = 0; y < 3; y++)
-    {
-        for(int x = 0; x < 3; x++)
-        {
-            graphic_draw_region(graphic, texture, x * 120, y * 120, 0);
+    graphic_clear();
+    for (int y = 0; y < 3; y++) {
+        for (int x = 0; x < 3; x++) {
+            sprite_draw_module(bg_spr, 0, x * 24, y * 24, 0);
         }
     }
     return;
 }
 
-int frames_count = 0;
-void draw_animation(graphic_t *graphic)
+void draw_animation()
 {
-    // 懒得加判断了
-    int tex_index, x, y, transform;
-    int count = pos_info[frames_count].count;
-    int offset = pos_info[frames_count].offset;
-    for(int i = 0; i < count; i++)
-    {
-        tex_index = pos[i+offset].index;
-        x = pos[i+offset].x;
-        y = pos[i+offset].y;
-        transform = pos[i+offset].transform;
-
-        graphic_draw_region(graphic, textures[tex_index], 120 + (x * 5), 120 + (y * 5), transform);
-    }
+    sprite_draw_aframe(grass, frames_count, 24, 24, 0);
     frames_count = (frames_count + 1) % 8;
     return;
 }
 
-int texture_init(graphic_t *graph)
+int texture_init()
 {
-    int w, h, n;
-    stbi_uc *pixel_data;
+    sprite_t* spr;
+    chunk_t* chunk;
+    file_handle_t* handle;
 
-    char buf[128];
-
-    for(int i = 0; i < 14; i++)
-    {
-        w = h = n = 0;
-        sprintf(buf, "tiles/%d.png", i);
-        pixel_data = stbi_load(buf, &w, &h, &n, 4);
-        if(!w || !h || !n)
-        {
-            fprintf(stderr, "Error: %s\n", stbi__g_failure_reason);
-            return -1;
-        }
-        textures[i] = graphic_create_texture(graph, pixel_data, w, h, w * 4);
-        free(pixel_data);
+    chunk = chunk_open("0.f");
+    if (!chunk) {
+        fprintf(stderr, "Failed to open chunk file\n");
+        return 1;
     }
+
+    int idx[] = { 1, chunk_get_data_count(chunk) - 1 };
+    for (int i = 0; i < 2; i++) {
+        handle = chunk_get_data(chunk, idx[i]);
+        if (!handle) {
+            fprintf(stderr, "Failed to get data\n");
+            chunk_free(chunk);
+            return 1;
+        }
+
+        spr = sprite_load(handle);
+        if (!spr) {
+            fprintf(stderr, "Failed to load sprite\n");
+            chunk_free(chunk);
+            file_close(handle);
+            return 1;
+        }
+
+        if (i)
+            bg_spr = spr;
+        else
+            grass = spr;
+
+        file_close(handle);
+    }
+    chunk_free(chunk);
+
     return 0;
 }
 
-int main(int argc, const char **argv)
+void main_loop()
 {
-    int save_frame = 0;
-    if(argc != 1) save_frame = 1;
-
-    graphic_t *graph;
-    if(graphic_init(&graph, "Angkor Grass Animation", 120 * 3, 120 * 3))
-        return -1;
-
-    if(texture_init(graph))
-        return -1;
-
-    if(save_frame)
-    {
-        char buf[128];
-        for(int i = 0; i < 8; i++)
-        {
-            sprintf(buf, "save/angkor_grass_frame%d.png", i+1);
-            draw_background(graph, textures[13]);
-            draw_animation(graph);
-            graphic_present(graph);
-            graphic_take_screenshot(graph, buf);
-        }
-        goto release_res;
-    }
-
-    graphic_show_window(graph);
-
     SDL_Event event;
-    SDL_bool running = SDL_TRUE;
-    while(1)
-    {
-        uint32_t begin = SDL_GetTicks();
 
-        while(SDL_PollEvent(&event))
-        {
-            switch(event.type)
-            {
-                case SDL_QUIT:
-                    running = SDL_FALSE;
-                default:
-                    break;
-            }
-        }
-        if(!running) break;
+#ifndef __EMSCRIPTEN__
+    uint32_t begin = SDL_GetTicks();
+#endif
 
-        draw_background(graph, textures[13]);
-        draw_animation(graph);
-
-        graphic_present(graph);
-
-        uint32_t current = SDL_GetTicks();
-        uint32_t cost = current - begin;
-        long delay = (1000/8) - cost;
-        if(delay > 0)
-        {
-            SDL_Delay(delay);
+    while (SDL_PollEvent(&event)) {
+        switch (event.type) {
+        case SDL_QUIT:
+            running = SDL_FALSE;
+        default:
+            break;
         }
     }
+
+#ifdef __EMSCRIPTEN__
+    if (!running) {
+        emscripten_cancel_main_loop();
+    }
+#else
+    if (!running) {
+        return;
+    }
+#endif
+
+    draw_background();
+    draw_animation();
+
+    graphic_present();
+
+#ifndef __EMSCRIPTEN__
+    uint32_t current = SDL_GetTicks();
+    uint32_t cost = current - begin;
+    long delay = (1000 / FPS) - cost;
+    if (delay > 0) {
+        SDL_Delay(delay);
+    }
+#endif
+}
+
+int main()
+{
+    if (graphic_init("Angkor Grass Animation", 120 * 3, 120 * 3)) {
+        fprintf(stderr, "Failed to init graphic\n");
+        return -1;
+    }
+
+    if (texture_init()) {
+        fprintf(stderr, "Failed to load texture\n");
+        return -1;
+    }
+
+    graphic_show_window();
+
+#ifdef __EMSCRIPTEN__
+    emscripten_set_main_loop(main_loop, FPS, 1);
+#else
+    while (running) {
+        main_loop();
+    }
+#endif
+
 release_res:
-    // 释放资源
-    for(int i = 0; i < 14; i++)
-    {
-        graphic_destroy_texture(textures[i]);
-    }
-    graphic_quit(graph);
+    sprite_free(bg_spr);
+    sprite_free(grass);
+    graphic_quit();
     return 0;
 }
