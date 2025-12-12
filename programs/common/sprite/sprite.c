@@ -1,4 +1,5 @@
-/* MIT License
+/*
+ * MIT License
  * 
  * Copyright (c) 2025 SmithGoll
  * 
@@ -64,6 +65,39 @@ static void* ptr_offs(void* p, int offs)
     return (void*)(t + offs);
 }
 
+static void sprite_draw_frame_module_impl(sprite_t* spr, int fm_index, int x, int y, int flip, int apply_flip)
+{
+    int module_index;
+    int module_w, module_h;
+    int off_x, off_y;
+
+    if (!spr || fm_index < 0)
+        return;
+    if (fm_index >= spr->fmodule_count)
+        return;
+
+    off_x = spr->fmodules[fm_index].x;
+    off_y = spr->fmodules[fm_index].y;
+    module_index = spr->fmodules[fm_index].module_index;
+    module_w = spr->module_dims[module_index].w;
+    module_h = spr->module_dims[module_index].h;
+
+    if (apply_flip) {
+        if (flip & FLIP_X) {
+            off_x = -off_x;
+            off_x -= module_w;
+        }
+        if (flip & FLIP_Y) {
+            off_y = -off_y;
+            off_y -= module_h;
+        }
+    }
+
+    flip ^= spr->fmodules[fm_index].flip;
+    sprite_draw_module(spr, module_index, x + off_x, y + off_y, flip);
+    return;
+}
+
 // public functions
 void sprite_draw_aframe(sprite_t* spr, int af_index, int x, int y, int flip)
 {
@@ -97,30 +131,14 @@ void sprite_draw_frame(sprite_t* spr, int frame_index, int x, int y, int flip)
     count = spr->frames[frame_index].count;
     offset = spr->frames[frame_index].offset;
     for (int i = 0; i < count; i++) {
-        sprite_draw_frame_module(spr, i + offset, x, y, flip);
+        sprite_draw_frame_module_impl(spr, i + offset, x, y, flip, 1);
     }
     return;
 }
 
 void sprite_draw_frame_module(sprite_t* spr, int fm_index, int x, int y, int flip)
 {
-    int module_index;
-    int module_w, module_h;
-    int off_x, off_y;
-
-    if (!spr || fm_index < 0)
-        return;
-    if (fm_index >= spr->fmodule_count)
-        return;
-
-    off_x = spr->fmodules[fm_index].x;
-    off_y = spr->fmodules[fm_index].y;
-    flip ^= spr->fmodules[fm_index].flip;
-    module_index = spr->fmodules[fm_index].module_index;
-    module_w = spr->module_dims[module_index].w;
-    module_h = spr->module_dims[module_index].h;
-
-    sprite_draw_module(spr, module_index, x + off_x, y + off_y, flip);
+    sprite_draw_frame_module_impl(spr, fm_index, x, y, flip, 0);
     return;
 }
 

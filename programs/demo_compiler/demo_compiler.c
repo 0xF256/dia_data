@@ -1,4 +1,5 @@
-/* MIT License
+/*
+ * MIT License
  * 
  * Copyright (c) 2025 SmithGoll
  * 
@@ -852,7 +853,7 @@ int main(int argc, const char** argv)
     if (!setlocale(LC_ALL, ".UTF-8"))
 #else
     if (!setlocale(LC_ALL, "C.UTF-8"))
-#endif
+#endif // __WINNT__
     {
         fprintf(stderr, "Failed to set locale to utf8\n");
         return -2;

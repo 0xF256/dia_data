@@ -11,3 +11,7 @@ target_include_directories(hw_impl PUBLIC
 target_link_libraries(hw_impl PRIVATE
     SDL2
 )
+
+if(EMSCRIPTEN)
+    target_compile_options(hw_impl PRIVATE "-sUSE_SDL=2")
+endif()

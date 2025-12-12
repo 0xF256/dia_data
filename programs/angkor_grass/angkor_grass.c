@@ -1,4 +1,5 @@
-/* MIT License
+/*
+ * MIT License
  * 
  * Copyright (c) 2025 SmithGoll
  * 
@@ -34,6 +35,7 @@
 sprite_t* grass = NULL;
 sprite_t* bg_spr = NULL;
 
+int anim_flip = 0;
 int frames_count = 0;
 
 SDL_bool running = SDL_TRUE;
@@ -51,7 +53,7 @@ void draw_background()
 
 void draw_animation()
 {
-    sprite_draw_aframe(grass, frames_count, 24, 24, 0);
+    sprite_draw_aframe(grass, frames_count, 24, 24, anim_flip);
     frames_count = (frames_count + 1) % 8;
     return;
 }
@@ -109,7 +111,10 @@ void main_loop()
         switch (event.type) {
         case SDL_QUIT:
             running = SDL_FALSE;
-        default:
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            if (event.button.button == SDL_BUTTON_LEFT)
+                anim_flip = (anim_flip + 1) % 4;
             break;
         }
     }
