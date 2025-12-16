@@ -102,9 +102,18 @@ typedef struct sprite_s
     // for palette switch
     int cur_palette;
     void *private_data;
+
+    // for texture create
+    void *user_data;
 } sprite_t;
 
 // public functions
+
+// experimental abs position functions, do not use
+int sprite_get_abs_frame_vertex (sprite_t *spr, int frame_index, int flip, int *x, int *y);
+void sprite_draw_aframe_abs     (sprite_t *spr, int af_index,      int x, int y, int flip);
+void sprite_draw_frame_abs      (sprite_t *spr, int frame_index,   int x, int y, int flip);
+
 void sprite_draw_aframe         (sprite_t *spr, int af_index,      int x, int y, int flip);
 void sprite_draw_frame          (sprite_t *spr, int frame_index,   int x, int y, int flip);
 void sprite_draw_frame_module   (sprite_t *spr, int fm_index,      int x, int y, int flip);
@@ -114,7 +123,7 @@ int  sprite_change_palette   (sprite_t *spr, int pal_index);
 void sprite_free_module_cache(sprite_t *spr, int pal_index);
 
 void        sprite_free   (sprite_t *spr);
-sprite_t*   sprite_load   (file_handle_t *handle);
+sprite_t*   sprite_load   (file_handle_t *handle, void *user_data);
 
 #ifdef __cplusplus
 }

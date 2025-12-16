@@ -30,11 +30,9 @@ extern "C" {
 #endif
 
 // public functions
-void* module_new(void *pixels, int w, int h);
-void  module_free(void *module);
-void  module_paint(void *module, int x, int y, int flip);
-int   module_get_width(void *module);
-int   module_get_height(void *module);
+void* module_new(void *pixels, int w, int h, void *user_data);
+void  module_free(void *module, void *user_data);
+void  module_paint(void *module, int x, int y, int flip, void *user_data);
 
 #ifdef __cplusplus
 }

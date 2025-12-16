@@ -53,7 +53,10 @@ void draw_background()
 
 void draw_animation()
 {
-    sprite_draw_aframe(grass, frames_count, 24, 24, anim_flip);
+    if (anim_flip > FLIP_XY)
+        sprite_draw_aframe(grass, frames_count, 24, 24, anim_flip - FLIP_XY - 1);
+    else
+        sprite_draw_aframe_abs(grass, frames_count, 24, 24, anim_flip);
     frames_count = (frames_count + 1) % 8;
     return;
 }
@@ -79,7 +82,7 @@ int texture_init()
             return 1;
         }
 
-        spr = sprite_load(handle);
+        spr = sprite_load(handle, graphic_render);
         if (!spr) {
             fprintf(stderr, "Failed to load sprite\n");
             chunk_free(chunk);
@@ -114,7 +117,7 @@ void main_loop()
             break;
         case SDL_MOUSEBUTTONDOWN:
             if (event.button.button == SDL_BUTTON_LEFT)
-                anim_flip = (anim_flip + 1) % 4;
+                anim_flip = (anim_flip + 1) % ((FLIP_XY + 1) * 2);
             break;
         }
     }

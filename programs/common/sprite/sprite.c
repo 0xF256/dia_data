@@ -99,6 +99,67 @@ static void sprite_draw_frame_module_impl(sprite_t* spr, int fm_index, int x, in
 }
 
 // public functions
+int sprite_get_abs_frame_vertex(sprite_t* spr, int frame_index, int flip, int* x, int* y)
+{
+    int off_x, off_y;
+    int real_x, real_y;
+
+    frame_rect_t* frame_rect;
+
+    if (!spr || frame_index < 0)
+        return 1;
+    if (frame_index >= spr->frame_count)
+        return 2;
+
+    frame_rect = &(spr->frame_rects[frame_index]);
+    off_x = frame_rect->x;
+    off_y = frame_rect->y;
+
+    if (flip & FLIP_X)
+        real_x = frame_rect->w + off_x;
+    else real_x = 0;
+
+    if (flip & FLIP_Y)
+        real_y = frame_rect->h + off_y;
+    else real_y = 0;
+
+    if (x) *x += real_x;
+    if (y) *y += real_y;
+    return 0;
+}
+
+void sprite_draw_aframe_abs(sprite_t* spr, int af_index, int x, int y, int flip)
+{
+    int frame_index;
+    int off_x, off_y;
+
+    if (!spr || af_index < 0)
+        return;
+    if (af_index >= spr->aframe_count)
+        return;
+
+    off_x = spr->aframes[af_index].x;
+    off_y = spr->aframes[af_index].y;
+    flip ^= spr->aframes[af_index].flip;
+    frame_index = spr->aframes[af_index].frame_index;
+
+    sprite_draw_frame_abs(spr, frame_index, x + off_x, y + off_y, flip);
+    return;
+}
+
+void sprite_draw_frame_abs(sprite_t* spr, int frame_index, int x, int y, int flip)
+{
+    int real_x, real_y;
+
+    real_x = x;
+    real_y = y;
+    if (sprite_get_abs_frame_vertex(spr, frame_index, flip, &real_x, &real_y))
+        return;
+
+    sprite_draw_frame(spr, frame_index, real_x, real_y, flip);
+    return;
+}
+
 void sprite_draw_aframe(sprite_t* spr, int af_index, int x, int y, int flip)
 {
     int frame_index;
@@ -146,6 +207,7 @@ void sprite_draw_module(sprite_t* spr, int module_index, int x, int y, int flip)
 {
     int cur_pal;
     void* module;
+    void* user_data;
 
     if (!spr || module_index < 0)
         return;
@@ -155,12 +217,13 @@ void sprite_draw_module(sprite_t* spr, int module_index, int x, int y, int flip)
     cur_pal = spr->cur_palette;
     module_index += cur_pal * spr->module_count;
     module = spr->modules[module_index];
+    user_data = spr->user_data;
     if (!module) {
         if (sprite_change_palette(spr, cur_pal))
             return;
         module = spr->modules[module_index];
     }
-    module_paint(module, x, y, flip);
+    module_paint(module, x, y, flip, user_data);
     return;
 }
 
@@ -181,6 +244,8 @@ int sprite_change_palette(sprite_t* spr, int pal_index)
     info_t* infos;
     priv_data_t* private_data;
 
+    void* user_data;
+
     if (!spr || pal_index < 0)
         return -1;
     if (pal_index >= spr->palette_count)
@@ -197,6 +262,8 @@ int sprite_change_palette(sprite_t* spr, int pal_index)
     tex_data = private_data->data;
     infos = private_data->infos;
 
+    user_data = spr->user_data;
+
     spr->cur_palette = pal_index;
     for (int i = 0; i < module_count; i++) {
         int idx = i + offset;
@@ -210,7 +277,7 @@ int sprite_change_palette(sprite_t* spr, int pal_index)
         data_len = infos[i].data_len;
         data_offset = infos[i].data_offset;
         temp = texture_load(tex_data + data_offset, data_len, encode_format,
-            pal, tex_w, tex_h);
+            pal, tex_w, tex_h, user_data);
         modules[idx] = temp;
     }
     return 0;
@@ -222,6 +289,7 @@ void sprite_free_module_cache(sprite_t* spr, int pal_index)
     int module_count;
     void* temp;
     void** modules;
+    void* user_data;
 
     if (!spr || pal_index < 0)
         return;
@@ -229,6 +297,7 @@ void sprite_free_module_cache(sprite_t* spr, int pal_index)
         return;
 
     modules = spr->modules;
+    user_data = spr->user_data;
     module_count = spr->module_count;
     offset = pal_index * module_count;
     for (int i = 0; i < module_count; i++) {
@@ -236,7 +305,7 @@ void sprite_free_module_cache(sprite_t* spr, int pal_index)
 
         temp = modules[idx];
         if (temp) {
-            module_free(temp);
+            module_free(temp, user_data);
             modules[idx] = NULL;
         }
     }
@@ -262,7 +331,7 @@ void sprite_free(sprite_t* spr)
     return;
 }
 
-sprite_t* sprite_load(file_handle_t* handle)
+sprite_t* sprite_load(file_handle_t* handle, void *user_data)
 {
     size_t file_offset;
 
@@ -470,6 +539,7 @@ sprite_t* sprite_load(file_handle_t* handle)
     SET(anim_count);
     SET(anims);
     SET(palette_count);
+    SET(user_data);
 #undef SET
     priv_data->infos = infos;
     priv_data->data = encode_data;

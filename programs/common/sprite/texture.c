@@ -40,7 +40,7 @@ static inline void safe_put(uint32_t* arr, uint32_t val, size_t index, size_t si
     return;
 }
 
-void* texture_load(const uint8_t* data, int data_len, uint16_t encode_format, const palette_t* palette, int w, int h)
+void* texture_load(const uint8_t* data, int data_len, uint16_t encode_format, const palette_t* palette, int w, int h, void* user_data)
 {
     void* res;
 
@@ -139,7 +139,7 @@ void* texture_load(const uint8_t* data, int data_len, uint16_t encode_format, co
         goto fail;
     }
 
-    res = module_new(pixels, w, h);
+    res = module_new(pixels, w, h, user_data);
 #ifdef FREE_PIXEL_DATA
     free(pixels);
 #endif

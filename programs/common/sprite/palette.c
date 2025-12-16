@@ -24,9 +24,8 @@
 
 #include "palette.h"
 
-#define USE_PIXELFORMAT_RGBA8888
+// #define USE_PIXELFORMAT_RGBA8888
 
-// Invert RB Channel for SDL
 #ifdef USE_PIXELFORMAT_RGBA8888
 #define INVERT_RB
 #endif

@@ -24,29 +24,75 @@
 
 #include "engine_tex_impl.h"
 
-#include "graphic.h"
+#include <SDL2/SDL.h>
 
-void* module_new(void* pixels, int w, int h)
+#define FLIP_NONE 0
+#define FLIP_X 1
+#define FLIP_Y 2
+#define FLIP_XY (FLIP_X|FLIP_Y)
+
+void* module_new(void* pixels, int w, int h, void* user_data)
 {
-    return (void*)graphic_create_texture(pixels, w, h, w * 4);
+    SDL_Renderer* render;
+    SDL_Texture* texture;
+
+    render = (SDL_Renderer*)user_data;
+    texture = SDL_CreateTexture(render, SDL_PIXELFORMAT_BGRA32, SDL_TEXTUREACCESS_STATIC, w, h);
+    if (!texture) return NULL;
+
+    if (SDL_UpdateTexture(texture, NULL, pixels, w *  4)) {
+        SDL_DestroyTexture(texture);
+        return NULL;
+    }
+    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+
+    return (void*)texture;
 }
 
-void module_free(void* module)
+void module_free(void* module, void* user_data)
 {
-    graphic_destroy_texture((tex_t*)module);
+    SDL_Texture* texture;
+
+    texture = (SDL_Texture*)module;
+    if (texture)
+        SDL_DestroyTexture(texture);
+    return;
 }
 
-void module_paint(void* module, int x, int y, int flip)
+void module_paint(void* module, int x, int y, int flip, void* user_data)
 {
-    graphic_draw_region((tex_t*)module, x, y, flip);
-}
+    int w, h;
+    double rotate;
+    SDL_Rect real_rect;
+    SDL_Texture* texture;
+    SDL_Renderer* render;
+    SDL_RendererFlip real_flip;
 
-int module_get_width(void* module)
-{
-    return graphic_get_texture_width((tex_t*)module);
-}
+    render = (SDL_Renderer*)user_data;
+    texture = (SDL_Texture*)module;
+    if (!texture || !render)
+        return;
 
-int module_get_height(void* module)
-{
-    return graphic_get_texture_height((tex_t*)module);
+    if (SDL_QueryTexture(texture, NULL, NULL, &w, &h))
+        return;
+
+    rotate = 0;
+    real_flip = SDL_FLIP_NONE;
+    real_rect.x = x;
+    real_rect.y = y;
+    real_rect.w = w;
+    real_rect.h = h;
+    switch (flip & FLIP_XY) {
+    case FLIP_Y:
+        rotate = 180;
+    case FLIP_X:
+        real_flip = SDL_FLIP_HORIZONTAL;
+        break;
+    case FLIP_XY:
+        rotate = 180;
+        break;
+    }
+
+    SDL_RenderCopyEx(render, texture, NULL, &real_rect, rotate, NULL, real_flip);
+    return;
 }

@@ -47,7 +47,8 @@ void* texture_load(const uint8_t *data,
                     int data_len,
                     uint16_t encode_format,
                     const palette_t *palette,
-                    int w, int h);
+                    int w, int h,
+                    void *user_data);
 
 #ifdef __cplusplus
 }

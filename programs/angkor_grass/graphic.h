@@ -27,16 +27,20 @@
 
 #include <SDL2/SDL.h>
 
+/*
+ * ATTENTION: THIS JUST A WRAPPER FOR SDL
+ *  AND IT PROVIDE NOTHING FOR TEXTURE RENDER
+ */
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-// structs
-struct graphic_s;
-typedef struct graphic_s graphic_t;
-
-struct tex_s;
-typedef struct tex_s tex_t;
+// public variables
+extern int graphic_width;
+extern int graphic_height;
+extern SDL_Window* graphic_window;
+extern SDL_Renderer* graphic_render; 
 
 // public functions
 int graphic_init(const char *window_name, int width, int height);
@@ -47,21 +51,11 @@ int graphic_get_height();
 
 void graphic_show_window();
 
-void graphic_draw_region(tex_t *texture, int x, int y, int transform);
-
 void graphic_clear();
 
 void graphic_present();
 
 void graphic_quit();
-
-int graphic_get_texture_width(tex_t *tex);
-
-int graphic_get_texture_height(tex_t *tex);
-
-tex_t *graphic_create_texture(const void *pixels, int w, int h, int pitch);
-
-void graphic_destroy_texture(tex_t *tex);
 
 #ifdef __cplusplus
 }
